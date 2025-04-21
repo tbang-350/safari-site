@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Tour;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -13,7 +14,8 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
+        // Remove auth middleware since this is the landing page
+        // $this->middleware('auth');
     }
 
     /**
@@ -23,6 +25,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $featuredTours = Tour::where('active', true)
+            ->where('is_featured', true)
+            ->orderBy('created_at', 'desc')
+            ->take(6)
+            ->get();
+
+        return view('landing', compact('featuredTours'));
     }
 }

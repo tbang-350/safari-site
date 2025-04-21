@@ -150,8 +150,23 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const data = await response.json();
 
-            if (response.ok) {
-                window.location.href = '/dashboard/tours';
+            if (response.ok && data.success) {
+                // Show success message if Dashmix notification helper is available
+                if (typeof Dashmix !== 'undefined' && Dashmix.helpers) {
+                    Dashmix.helpers('jq-notify', {
+                        type: 'success',
+                        icon: 'fa fa-check me-1',
+                        message: data.message || 'Tour created successfully'
+                    });
+                }
+
+                // Get the redirect URL from the form's data attribute
+                const redirectUrl = this.dataset.redirectUrl;
+
+                // Redirect after a short delay
+                setTimeout(() => {
+                    window.location.href = redirectUrl || '/dashboard/tours';
+                }, 1500);
             } else {
                 // Display validation errors
                 if (data.errors) {
@@ -162,13 +177,37 @@ document.addEventListener('DOMContentLoaded', function() {
                             errorDiv.style.display = 'block';
                         }
                     });
+
+                    // Scroll to the first error
+                    const firstError = document.querySelector('.invalid-feedback[style="display: block"]');
+                    if (firstError) {
+                        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }
                 } else {
-                    alert('An error occurred while saving the tour. Please try again.');
+                    // Show error message
+                    if (typeof Dashmix !== 'undefined' && Dashmix.helpers) {
+                        Dashmix.helpers('jq-notify', {
+                            type: 'danger',
+                            icon: 'fa fa-times me-1',
+                            message: 'An error occurred while saving the tour. Please try again.'
+                        });
+                    } else {
+                        alert('An error occurred while saving the tour. Please try again.');
+                    }
                 }
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('An error occurred while saving the tour. Please try again.');
+            // Show error message
+            if (typeof Dashmix !== 'undefined' && Dashmix.helpers) {
+                Dashmix.helpers('jq-notify', {
+                    type: 'danger',
+                    icon: 'fa fa-times me-1',
+                    message: 'An error occurred while saving the tour. Please try again.'
+                });
+            } else {
+                alert('An error occurred while saving the tour. Please try again.');
+            }
         }
     });
 

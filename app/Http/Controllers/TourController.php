@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 
 class TourController extends Controller
 {
+    /**
+     * Display a listing of the tours.
+     */
     public function index()
     {
         $tours = Tour::where('active', true)
@@ -17,12 +20,22 @@ class TourController extends Controller
         return view('tours', compact('tours'));
     }
 
+    /**
+     * Display the specified tour.
+     */
     public function show(Tour $tour)
     {
         if (!$tour->active) {
             abort(404);
         }
 
-        return view('tours.show', compact('tour'));
+        // Get related tours
+        $relatedTours = Tour::where('active', true)
+            ->where('id', '!=', $tour->id)
+            ->inRandomOrder()
+            ->limit(3)
+            ->get();
+
+        return view('tours.show', compact('tour', 'relatedTours'));
     }
 }

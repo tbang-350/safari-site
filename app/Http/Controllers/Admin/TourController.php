@@ -41,7 +41,7 @@ class TourController extends Controller
             'location' => 'required|string|max:255',
             'image_type' => 'required|in:custom,pexels',
             'image' => 'required_if:image_type,custom|image|max:2048',
-            'image_source' => 'required_if:image_type,pexels|url',
+            'image_source' => 'required_if:image_type,pexels|nullable|string',
             'difficulty_level' => 'required|in:easy,moderate,challenging',
             'is_featured' => 'boolean',
             'max_people' => 'nullable|integer|min:1',
@@ -51,7 +51,10 @@ class TourController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            if ($request->ajax()) {
+                return response()->json(['errors' => $validator->errors()], 422);
+            }
+            return back()->withErrors($validator)->withInput();
         }
 
         $data = $request->except('image');
@@ -61,6 +64,8 @@ class TourController extends Controller
         if ($request->image_type === 'custom' && $request->hasFile('image')) {
             $path = $request->file('image')->store('tours', 'public');
             $data['image_source'] = $path;
+        } elseif ($request->image_type === 'pexels') {
+            $data['image_source'] = $request->image_source;
         }
 
         // Convert newline-separated text to JSON arrays
@@ -72,11 +77,19 @@ class TourController extends Controller
 
         $tour = Tour::create($data);
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Tour created successfully',
-            'tour' => $tour
-        ]);
+        // If it's an AJAX request, return JSON response
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Tour created successfully',
+                'tour' => $tour
+            ]);
+        }
+
+        // For regular form submission, redirect with success message
+        return redirect()
+            ->route('admin.tours.index')
+            ->with('success', 'Tour created successfully');
     }
 
     /**

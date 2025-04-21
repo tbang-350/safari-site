@@ -2,184 +2,99 @@
 
 @section('content')
   <!-- Hero -->
-  <div class="hero overflow-hidden bg-image" style="background-image: url('/media/safari/hero.jpg'); background-size: cover; background-position: center; min-height: 90vh;">
-    <div class="hero-inner">
-      <div class="content content-full text-center pt-7 pb-5">
-        <h1 class="fw-bold text-white mb-2 move-up-on-hover" style="font-size: 3.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-          Tanzania <span class="text-warning">Safari</span> Adventures
-        </h1>
-        <h2 class="h3 fw-medium text-white-75 mb-5 move-up-on-hover" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
-          Experience the magic of African wildlife and breathtaking landscapes
-        </h2>
-        <div class="d-flex justify-content-center gap-3">
-          <a class="btn btn-hero btn-primary px-4 py-3 d-inline-block" href="#tours">
-            <i class="fa fa-fw fa-compass me-1"></i> Explore Tours
-          </a>
-          <a class="btn btn-hero btn-alt-success px-4 py-3 d-inline-block" href="#booking">
-            <i class="fa fa-fw fa-calendar-alt me-1"></i> Book Now
-        </a>
+  <div class="bg-image" style="background-image: url('{{ asset('media/photos/photo21@2x.jpg') }}');">
+    <div class="bg-black-50">
+      <div class="content content-full text-center">
+        <div class="my-3">
+          <h1 class="h2 text-white mb-2">Discover Amazing Adventures</h1>
+          <h2 class="h4 fw-normal text-white-75">Experience the best tours with us</h2>
         </div>
       </div>
     </div>
   </div>
   <!-- END Hero -->
 
-  <!-- Features Section -->
-  <div id="features" class="content content-full">
-    <div class="py-5 text-center">
-      <h2 class="h1 mb-4">
-        Why Choose <span class="text-primary">Tanzania Safari Adventures</span>
-      </h2>
-      <p class="fs-lg text-muted mb-5">
-        Discover why thousands of travelers choose us for their African safari experience
-      </p>
-      <div class="row g-4">
-        <div class="col-md-4 py-3">
-          <div class="block block-rounded block-link-shadow h-100">
-            <div class="block-content block-content-full text-center bg-body-light">
-              <div class="item item-circle bg-warning-light mx-auto mb-3">
-                <i class="fa fa-2x fa-user-tie text-warning"></i>
-              </div>
-            </div>
-            <div class="block-content block-content-full text-center">
-              <h4 class="mb-2">Expert Local Guides</h4>
-              <p class="fs-sm text-muted mb-0">
-                Our guides are born and raised in Tanzania with decades of combined experience
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 py-3">
-          <div class="block block-rounded block-link-shadow h-100">
-            <div class="block-content block-content-full text-center bg-body-light">
-              <div class="item item-circle bg-success-light mx-auto mb-3">
-                <i class="fa fa-2x fa-map-marked-alt text-success"></i>
-              </div>
-            </div>
-            <div class="block-content block-content-full text-center">
-              <h4 class="mb-2">Custom Safari Tours</h4>
-              <p class="fs-sm text-muted mb-0">
-                Tailor-made experiences from luxury safaris to budget-friendly adventures
-              </p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 py-3">
-          <div class="block block-rounded block-link-shadow h-100">
-            <div class="block-content block-content-full text-center bg-body-light">
-              <div class="item item-circle bg-info-light mx-auto mb-3">
-                <i class="fa fa-2x fa-camera text-info"></i>
-              </div>
-            </div>
-            <div class="block-content block-content-full text-center">
-              <h4 class="mb-2">Unforgettable Experiences</h4>
-              <p class="fs-sm text-muted mb-0">
-                From the Serengeti to Kilimanjaro, create memories that last a lifetime
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+  <!-- Featured Tours -->
+  <div class="content content-full">
+    <div class="text-center py-5">
+      <h2 class="h3">Popular <span class="text-primary">Safari</span> Tours</h2>
+      <p class="text-muted">Explore our most sought-after adventures across Tanzania</p>
     </div>
-  </div>
-  <!-- END Features Section -->
 
-  <!-- Popular Tours Section -->
-  <div id="tours" class="bg-body-light">
+    <div class="row">
+      @foreach($featuredTours as $tour)
+      <div class="col-md-6 col-xl-4">
+        <a class="block block-rounded block-link-shadow h-100 mb-4" href="{{ route('tours.show', $tour->slug) }}">
+          <div class="block-content p-0 overflow-hidden">
+            <img class="img-fluid" src="{{ $tour->image_source ? ($tour->image_type === 'pexels' ? $tour->image_source : asset('storage/' . $tour->image_source)) : asset('media/photos/photo21.jpg') }}" alt="{{ $tour->title }}">
+          </div>
+          <div class="block-content">
+            <h4 class="mb-1">{{ $tour->title }}</h4>
+            <p class="fs-sm text-muted">{{ Str::limit($tour->description, 100) }}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div>
+                <span class="badge bg-primary">{{ $tour->duration }} days</span>
+                <span class="badge bg-{{ $tour->difficulty_level === 'easy' ? 'success' : ($tour->difficulty_level === 'moderate' ? 'warning' : 'danger') }}">
+                  {{ ucfirst($tour->difficulty_level) }}
+                </span>
+              </div>
+              <div class="fs-4 fw-semibold">${{ number_format($tour->price, 2) }}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+      @endforeach
+    </div>
+
+    <div class="text-center">
+      <a href="{{ route('tours.index') }}" class="btn btn-alt-primary">
+        View All Tours <i class="fa fa-arrow-right ms-1"></i>
+      </a>
+    </div>
+  </div>
+  <!-- END Featured Tours -->
+
+  <!-- Features -->
+  <div class="bg-body-light">
     <div class="content content-full">
-      <div class="py-5 text-center">
-        <h2 class="h1 mb-4">
-          Popular <span class="text-primary">Safari</span> Tours
-        </h2>
-        <p class="fs-lg text-muted mb-5">
-          Explore our most sought-after adventures across Tanzania
-        </p>
-        <div class="row g-4">
-          <div class="col-md-4 py-3">
-            <div class="block block-rounded block-link-pop overflow-hidden h-100">
-              <div class="block-content p-0">
-                <img src="/media/safari/serengeti.jpg" class="img-fluid" alt="Serengeti Safari">
-              </div>
-              <div class="block-content block-content-full">
-                <h4 class="mb-1">Serengeti Migration Safari</h4>
-                <div class="fs-sm fw-semibold text-warning mb-2">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <span class="text-muted ms-1">(48 reviews)</span>
-                </div>
-                <p class="fs-sm text-muted">
-                  Witness the spectacular wildebeest migration across the endless plains of the Serengeti
-                </p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="fs-lg fw-semibold text-success">From $1,995</div>
-                  <a href="#booking" class="btn btn-sm btn-primary">Book Now</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 py-3">
-            <div class="block block-rounded block-link-pop overflow-hidden h-100">
-              <div class="block-content p-0">
-                <img src="/media/safari/kilimanjaro.jpg" class="img-fluid" alt="Kilimanjaro Trek">
-              </div>
-              <div class="block-content block-content-full">
-                <h4 class="mb-1">Kilimanjaro Trek</h4>
-                <div class="fs-sm fw-semibold text-warning mb-2">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star-half-alt"></i>
-                  <span class="text-muted ms-1">(36 reviews)</span>
-                </div>
-                <p class="fs-sm text-muted">
-                  Conquer Africa's highest peak with our experienced guides and premium equipment
-                </p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="fs-lg fw-semibold text-success">From $2,450</div>
-                  <a href="#booking" class="btn btn-sm btn-primary">Book Now</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 py-3">
-            <div class="block block-rounded block-link-pop overflow-hidden h-100">
-              <div class="block-content p-0">
-                <img src="/media/safari/zanzibar.jpg" class="img-fluid" alt="Zanzibar Beach">
-              </div>
-              <div class="block-content block-content-full">
-                <h4 class="mb-1">Zanzibar Beach Getaway</h4>
-                <div class="fs-sm fw-semibold text-warning mb-2">
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                  <span class="text-muted ms-1">(62 reviews)</span>
-                </div>
-                <p class="fs-sm text-muted">
-                  Relax on pristine white sand beaches and explore the historic Stone Town
-                </p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="fs-lg fw-semibold text-success">From $1,295</div>
-                  <a href="#booking" class="btn btn-sm btn-primary">Book Now</a>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="py-5">
+        <div class="text-center mb-5">
+          <h2 class="h3">Why Choose Us</h2>
+          <p class="text-muted">Experience the difference with our premium services</p>
         </div>
-        <div class="text-center mt-5">
-          <a href="/tours" class="btn btn-lg btn-alt-primary px-4">
-            View All Tours <i class="fa fa-arrow-right ms-1 opacity-50"></i>
-          </a>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="text-center mb-5">
+              <div class="item item-circle mx-auto mb-3">
+                <i class="fa fa-2x fa-map-marked-alt text-primary"></i>
+              </div>
+              <h4>Expert Local Guides</h4>
+              <p class="text-muted mb-0">Our experienced guides know every trail and secret spot</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center mb-5">
+              <div class="item item-circle mx-auto mb-3">
+                <i class="fa fa-2x fa-shield-alt text-primary"></i>
+              </div>
+              <h4>Safe Adventures</h4>
+              <p class="text-muted mb-0">Your safety is our top priority on every expedition</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="text-center mb-5">
+              <div class="item item-circle mx-auto mb-3">
+                <i class="fa fa-2x fa-heart text-primary"></i>
+              </div>
+              <h4>Unforgettable Experiences</h4>
+              <p class="text-muted mb-0">Create memories that will last a lifetime</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <!-- END Popular Tours Section -->
+  <!-- END Features -->
 
   <!-- Testimonials -->
   <div id="testimonials" class="content content-full">

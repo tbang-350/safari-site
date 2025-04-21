@@ -14,7 +14,7 @@
     </div>
     <!-- END Hero -->
 
-    <!-- Tour Details -->
+    <!-- Tour Content -->
     <div class="content content-full">
         <div class="row py-5">
             <div class="col-lg-8">
@@ -28,6 +28,26 @@
                     </div>
                 </div>
 
+                <!-- Tour Details -->
+                <div class="block block-rounded">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Tour Details</h3>
+                    </div>
+                    <div class="block-content">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Duration:</strong> {{ $tour->duration }} days</p>
+                                <p><strong>Difficulty Level:</strong> {{ ucfirst($tour->difficulty_level) }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Maximum People:</strong> {{ $tour->max_people ?? 'No limit' }}</p>
+                                <p><strong>Price:</strong> ${{ number_format($tour->price, 2) }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @if($tour->included_services)
                 <!-- Included Services -->
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
@@ -35,33 +55,37 @@
                     </div>
                     <div class="block-content">
                         <ul class="fa-ul">
-                            @foreach(json_decode($tour->included_services) as $service)
-                                <li class="mb-2">
-                                    <span class="fa-li"><i class="fa fa-check text-success"></i></span>
-                                    {{ $service }}
-                                </li>
+                            @foreach($tour->included_services as $service)
+                            <li>
+                                <span class="fa-li"><i class="fa fa-check text-success"></i></span>
+                                {{ $service }}
+                            </li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
+                @endif
 
-                <!-- Not Included -->
+                @if($tour->excluded_services)
+                <!-- Excluded Services -->
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
                         <h3 class="block-title">Not Included</h3>
                     </div>
                     <div class="block-content">
                         <ul class="fa-ul">
-                            @foreach(json_decode($tour->excluded_services) as $service)
-                                <li class="mb-2">
-                                    <span class="fa-li"><i class="fa fa-times text-danger"></i></span>
-                                    {{ $service }}
-                                </li>
+                            @foreach($tour->excluded_services as $service)
+                            <li>
+                                <span class="fa-li"><i class="fa fa-times text-danger"></i></span>
+                                {{ $service }}
+                            </li>
                             @endforeach
                         </ul>
                     </div>
                 </div>
+                @endif
 
+                @if($tour->itinerary)
                 <!-- Itinerary -->
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
@@ -69,72 +93,91 @@
                     </div>
                     <div class="block-content">
                         <div class="timeline timeline-alt">
-                            @foreach(json_decode($tour->itinerary) as $day)
-                                <div class="timeline-item">
-                                    <div class="timeline-event">
-                                        <div class="timeline-event-icon bg-default">
-                                            <i class="fa fa-calendar"></i>
-                                        </div>
-                                        <div class="timeline-event-block">
-                                            <p class="fw-semibold mb-0">{{ $day }}</p>
-                                        </div>
+                            @foreach($tour->itinerary as $index => $item)
+                            <div class="timeline-item">
+                                <div class="timeline-event">
+                                    <div class="timeline-event-icon bg-default">
+                                        <i class="fa fa-map-marker-alt"></i>
+                                    </div>
+                                    <div class="timeline-event-block">
+                                        <p class="fw-semibold mb-2">Day {{ $index + 1 }}</p>
+                                        <p class="fs-sm">{{ $item }}</p>
                                     </div>
                                 </div>
+                            </div>
                             @endforeach
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
             <div class="col-lg-4">
-                <!-- Tour Info -->
+                <!-- Booking Form -->
                 <div class="block block-rounded">
                     <div class="block-header block-header-default">
-                        <h3 class="block-title">Tour Information</h3>
+                        <h3 class="block-title">Book This Tour</h3>
                     </div>
                     <div class="block-content">
-                        <div class="row g-0 border-bottom py-2">
-                            <div class="col-6">
-                                <span class="text-muted">Duration:</span>
+                        <form action="{{ route('bookings.store') }}" method="POST">
+                            @csrf
+                            <input type="hidden" name="tour_id" value="{{ $tour->id }}">
+                            <div class="mb-4">
+                                <label class="form-label" for="name">Your Name</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
                             </div>
-                            <div class="col-6 text-end">
-                                <span class="fw-semibold">{{ $tour->duration }} days</span>
+                            <div class="mb-4">
+                                <label class="form-label" for="email">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
                             </div>
-                        </div>
-                        <div class="row g-0 border-bottom py-2">
-                            <div class="col-6">
-                                <span class="text-muted">Max People:</span>
+                            <div class="mb-4">
+                                <label class="form-label" for="phone">Phone</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" required>
                             </div>
-                            <div class="col-6 text-end">
-                                <span class="fw-semibold">{{ $tour->max_people ?? 'Not limited' }}</span>
+                            <div class="mb-4">
+                                <label class="form-label" for="date">Preferred Date</label>
+                                <input type="date" class="form-control" id="date" name="date" required>
                             </div>
-                        </div>
-                        <div class="row g-0 border-bottom py-2">
-                            <div class="col-6">
-                                <span class="text-muted">Difficulty:</span>
+                            <div class="mb-4">
+                                <label class="form-label" for="participants">Number of Participants</label>
+                                <input type="number" class="form-control" id="participants" name="participants" min="1" required>
                             </div>
-                            <div class="col-6 text-end">
-                                <span class="badge bg-{{ $tour->difficulty_level === 'easy' ? 'success' : ($tour->difficulty_level === 'moderate' ? 'warning' : 'danger') }}">
-                                    {{ ucfirst($tour->difficulty_level) }}
-                                </span>
+                            <div class="mb-4">
+                                <label class="form-label" for="message">Special Requirements</label>
+                                <textarea class="form-control" id="message" name="message" rows="4"></textarea>
                             </div>
-                        </div>
-                        <div class="row g-0 py-2">
-                            <div class="col-6">
-                                <span class="text-muted">Price:</span>
+                            <div class="mb-4">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    Book Now
+                                </button>
                             </div>
-                            <div class="col-6 text-end">
-                                <span class="fw-semibold fs-4">${{ number_format($tour->price, 2) }}</span>
-                            </div>
-                        </div>
-                        <div class="mt-4">
-                            <a href="{{ route('bookings.create', ['tour' => $tour->slug]) }}" class="btn btn-primary w-100">
-                                <i class="fa fa-calendar-plus opacity-50 me-1"></i> Book Now
-                            </a>
-                        </div>
+                        </form>
                     </div>
                 </div>
+
+                <!-- Related Tours -->
+                @if($relatedTours->count() > 0)
+                <div class="block block-rounded">
+                    <div class="block-header block-header-default">
+                        <h3 class="block-title">Similar Tours</h3>
+                    </div>
+                    <div class="block-content">
+                        @foreach($relatedTours as $relatedTour)
+                        <div class="d-flex align-items-center push">
+                            <div class="flex-shrink-0">
+                                <img class="img-fluid" src="{{ $relatedTour->image_source ? ($relatedTour->image_type === 'pexels' ? $relatedTour->image_source : asset('storage/' . $relatedTour->image_source)) : asset('media/photos/photo21.jpg') }}" alt="{{ $relatedTour->title }}" style="width: 100px; height: 60px; object-fit: cover;">
+                            </div>
+                            <div class="flex-grow-1 ms-3">
+                                <div class="fw-semibold mb-1">
+                                    <a href="{{ route('tours.show', $relatedTour->slug) }}">{{ $relatedTour->title }}</a>
+                                </div>
+                                <div class="fs-sm">${{ number_format($relatedTour->price, 2) }}</div>
+                            </div>
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>
-    <!-- END Tour Details -->
 @endsection

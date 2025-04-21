@@ -25,7 +25,14 @@
     <div class="content">
         @include('shared.error')
 
-        <form id="create-tour-form" action="{{ route('admin.tours.store') }}" method="POST" enctype="multipart/form-data">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <p class="mb-0">{{ session('success') }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        <form id="create-tour-form" action="{{ route('admin.tours.store') }}" method="POST" enctype="multipart/form-data" data-redirect-url="{{ route('admin.tours.index') }}">
             @csrf
             <div class="block block-rounded">
                 <div class="block-header block-header-default">
