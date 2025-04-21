@@ -159,90 +159,183 @@
   <!-- END Features -->
 
   <!-- Testimonials -->
-  <div id="testimonials" class="content content-full">
-    <div class="py-5 text-center">
-      <h2 class="h1 mb-4">
-        What Our <span class="text-primary">Clients</span> Say
+  <div id="testimonials" class="content content-full py-7" style="background-color: #f8f9fa;">
+    <div class="container">
+      <h2 class="h1 text-center mb-2">
+        <span class="fw-bold">Testimonials</span>
       </h2>
-      <div class="row justify-content-center">
-        <div class="col-md-10 col-lg-8">
-          <div class="js-slider slick-nav-black slick-dotted-inner slick-dotted-white" data-dots="true" data-arrows="true">
-            <div>
-              <div class="block block-rounded block-bordered bg-body-light">
-                <div class="block-content block-content-full">
-                  <div class="py-3">
-                    <div class="fs-sm fw-semibold text-warning mb-3">
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
+      <p class="text-muted text-center mb-5 fs-lg">What our clients say about their experiences</p>
+
+      <div class="position-relative testimonials-wrapper">
+        <div id="testimonials-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="7000">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                  <div class="testimonial-card h-100">
+                    <div class="quote-icon">
+                      <i class="fa fa-quote-left text-light"></i>
                     </div>
-                    <p class="fs-lg text-muted">
+                    <p class="testimonial-text">
                       Our safari with Tanzania Safari Adventures was simply incredible. The guides were knowledgeable, accommodation was excellent, and we saw the Big Five in just three days!
                     </p>
-                  </div>
-                  <div class="d-flex justify-content-center align-items-center">
-                    <img src="/media/safari/avatars/1.jpg" class="img-avatar img-avatar48 me-3" alt="Client Avatar">
-                    <div class="text-start">
-                      <p class="fw-semibold mb-0">Sarah Johnson</p>
-                      <p class="fs-sm text-muted mb-0">New York, USA</p>
+                    <div class="testimonial-rating">
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                    </div>
+                    <div class="testimonial-author">
+                      <img src="https://placehold.co/120x120/e67e22/ffffff?text=SJ&font=playfair+display" class="testimonial-avatar" alt="Sarah Johnson">
+                      <div class="testimonial-info">
+                        <h5 class="mb-0">Sarah Johnson</h5>
+                        <p class="mb-0 text-muted">New York, USA</p>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            <div>
-              <div class="block block-rounded block-bordered bg-body-light">
-                <div class="block-content block-content-full">
-                  <div class="py-3">
-                    <div class="fs-sm fw-semibold text-warning mb-3">
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
+                <div class="col-md-4">
+                  <div class="testimonial-card h-100 highlighted">
+                    <div class="quote-icon">
+                      <i class="fa fa-quote-left text-primary"></i>
                     </div>
-                    <p class="fs-lg text-muted">
+                    <p class="testimonial-text">
                       Climbing Kilimanjaro was the challenge of a lifetime. Thanks to our amazing guides, we all made it to the summit safely. An unforgettable achievement!
                     </p>
+                    <div class="testimonial-rating">
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                    </div>
+                    <div class="testimonial-author">
+                      <img src="https://placehold.co/120x120/2c3e50/ffffff?text=DM&font=playfair+display" class="testimonial-avatar" alt="David Miller">
+                      <div class="testimonial-info">
+                        <h5 class="mb-0">David Miller</h5>
+                        <p class="mb-0 text-muted">London, UK</p>
+                      </div>
+                    </div>
                   </div>
-                  <div class="d-flex justify-content-center align-items-center">
-                    <img src="/media/safari/avatars/2.jpg" class="img-avatar img-avatar48 me-3" alt="Client Avatar">
-                    <div class="text-start">
-                      <p class="fw-semibold mb-0">David Miller</p>
-                      <p class="fs-sm text-muted mb-0">London, UK</p>
+                </div>
+                <div class="col-md-4">
+                  <div class="testimonial-card h-100">
+                    <div class="quote-icon">
+                      <i class="fa fa-quote-left text-light"></i>
+                    </div>
+                    <p class="testimonial-text">
+                      Our family safari exceeded all expectations. The children were mesmerized by the animals, and the accommodations were perfect for families. Highly recommend!
+                    </p>
+                    <div class="testimonial-rating">
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                    </div>
+                    <div class="testimonial-author">
+                      <img src="https://placehold.co/120x120/c0392b/ffffff?text=MR&font=playfair+display" class="testimonial-avatar" alt="Maria Rodriguez">
+                      <div class="testimonial-info">
+                        <h5 class="mb-0">Maria Rodriguez</h5>
+                        <p class="mb-0 text-muted">Madrid, Spain</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-            <div>
-              <div class="block block-rounded block-bordered bg-body-light">
-                <div class="block-content block-content-full">
-                  <div class="py-3">
-                    <div class="fs-sm fw-semibold text-warning mb-3">
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
-                      <i class="fa fa-star"></i>
+            <div class="carousel-item">
+              <div class="row g-4 justify-content-center">
+                <div class="col-md-4">
+                  <div class="testimonial-card h-100">
+                    <div class="quote-icon">
+                      <i class="fa fa-quote-left text-light"></i>
                     </div>
-                    <p class="fs-lg text-muted">
-                      Our family safari exceeded all expectations. The children were mesmerized by the animals, and the accommodations were perfect for families. Highly recommend!
+                    <p class="testimonial-text">
+                      The safari experience was beyond our wildest dreams. Professional guides and luxurious accommodations made this the trip of a lifetime.
                     </p>
+                    <div class="testimonial-rating">
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                    </div>
+                    <div class="testimonial-author">
+                      <img src="https://placehold.co/120x120/3498db/ffffff?text=JB&font=playfair+display" class="testimonial-avatar" alt="John Brown">
+                      <div class="testimonial-info">
+                        <h5 class="mb-0">John Brown</h5>
+                        <p class="mb-0 text-muted">Toronto, Canada</p>
+                      </div>
+                    </div>
                   </div>
-                  <div class="d-flex justify-content-center align-items-center">
-                    <img src="/media/safari/avatars/3.jpg" class="img-avatar img-avatar48 me-3" alt="Client Avatar">
-                    <div class="text-start">
-                      <p class="fw-semibold mb-0">Maria Rodriguez</p>
-                      <p class="fs-sm text-muted mb-0">Madrid, Spain</p>
+                </div>
+                <div class="col-md-4">
+                  <div class="testimonial-card h-100 highlighted">
+                    <div class="quote-icon">
+                      <i class="fa fa-quote-left text-primary"></i>
+                    </div>
+                    <p class="testimonial-text">
+                      What an incredible adventure! The Serengeti was breathtaking, and our guide's knowledge of wildlife made every day exciting and educational.
+                    </p>
+                    <div class="testimonial-rating">
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star-half-alt text-warning"></i>
+                    </div>
+                    <div class="testimonial-author">
+                      <img src="https://placehold.co/120x120/27ae60/ffffff?text=LS&font=playfair+display" class="testimonial-avatar" alt="Laura Smith">
+                      <div class="testimonial-info">
+                        <h5 class="mb-0">Laura Smith</h5>
+                        <p class="mb-0 text-muted">Sydney, Australia</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-4">
+                  <div class="testimonial-card h-100">
+                    <div class="quote-icon">
+                      <i class="fa fa-quote-left text-light"></i>
+                    </div>
+                    <p class="testimonial-text">
+                      Tanzania Safari Adventures made our honeymoon magical. Private game drives, sunset dinners, and attentive service at every turn.
+                    </p>
+                    <div class="testimonial-rating">
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                      <i class="fa fa-star text-warning"></i>
+                    </div>
+                    <div class="testimonial-author">
+                      <img src="https://placehold.co/120x120/8e44ad/ffffff?text=MJ&font=playfair+display" class="testimonial-avatar" alt="Michael Johnson">
+                      <div class="testimonial-info">
+                        <h5 class="mb-0">Michael Johnson</h5>
+                        <p class="mb-0 text-muted">Berlin, Germany</p>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+
+          <!-- Minimal Control Buttons -->
+          <button class="carousel-control-prev" type="button" data-bs-target="#testimonials-carousel" data-bs-slide="prev">
+            <span class="control-icon"><i class="fa fa-chevron-left"></i></span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#testimonials-carousel" data-bs-slide="next">
+            <span class="control-icon"><i class="fa fa-chevron-right"></i></span>
+          </button>
+        </div>
+
+        <!-- Carousel Indicators -->
+        <div class="carousel-indicators-custom">
+          <button type="button" data-bs-target="#testimonials-carousel" data-bs-slide-to="0" class="active" aria-current="true"></button>
+          <button type="button" data-bs-target="#testimonials-carousel" data-bs-slide-to="1"></button>
         </div>
       </div>
     </div>
@@ -679,6 +772,216 @@
   #tours-carousel .carousel-indicators .active {
     opacity: 1;
     transform: scale(1.2);
+  }
+
+  /* Testimonial Section Styling */
+  .testimonials-wrapper {
+    padding: 2rem 0 4rem;
+  }
+
+  .testimonial-card {
+    background-color: #fff;
+    background: #fff;
+    border-radius: 2rem;
+    padding: 3.5rem;
+    margin: 1.5rem;
+    box-shadow: 0 1.5rem 3rem rgba(0,0,0,0.1);
+    transition: all 0.4s ease;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .testimonial-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, #e67e22, #f39c12);
+  }
+
+  .testimonial-rating {
+    font-size: 1.75rem;
+    letter-spacing: 5px;
+    margin-bottom: 2rem;
+  }
+
+  .testimonial-text {
+    font-size: 1.35rem;
+    line-height: 1.8;
+    color: #2c3e50;
+    margin: 2rem auto;
+    font-style: italic;
+    position: relative;
+    max-width: 85%;
+    font-weight: 300;
+  }
+
+  .testimonial-text::before,
+  .testimonial-text::after {
+    content: '"';
+    font-size: 5rem;
+    font-family: 'Playfair Display', serif;
+    color: #e67e22;
+    opacity: 0.15;
+    position: absolute;
+    line-height: 1;
+  }
+
+  .testimonial-text::before {
+    left: -2.5rem;
+    top: -1.5rem;
+  }
+
+  .testimonial-text::after {
+    right: -2.5rem;
+    bottom: -3rem;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding-top: 2rem;
+    margin-top: 2.5rem;
+    border-top: 2px solid rgba(0,0,0,0.05);
+  }
+
+  .testimonial-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #e67e22;
+    box-shadow: 0 8px 16px rgba(230,126,34,0.2);
+    transition: all 0.3s ease;
+  }
+
+  .testimonial-info h5 {
+    color: #2c3e50;
+    font-weight: 700;
+    font-size: 1.35rem;
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .testimonial-info p {
+    font-size: 1.1rem;
+    color: #7f8c8d;
+  }
+
+  .testimonial-controls {
+    margin-top: 2rem;
+  }
+
+  .testimonial-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: 2px solid rgba(230,126,34,0.3);
+    background: rgba(255,255,255,0.8);
+    color: #e67e22;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    font-size: 1.1rem;
+    opacity: 0;
+    z-index: 10;
+  }
+
+  .testimonial-control.prev {
+    left: -60px;
+  }
+
+  .testimonial-control.next {
+    right: -60px;
+  }
+
+  .col-lg-8:hover .testimonial-control {
+    opacity: 0.7;
+  }
+
+  .testimonial-control:hover {
+    background: #e67e22;
+    color: white;
+    border-color: #e67e22;
+    transform: translateY(-50%) scale(1.1);
+    opacity: 1 !important;
+    box-shadow: 0 5px 15px rgba(230,126,34,0.2);
+  }
+
+  .testimonial-indicators {
+    position: absolute;
+    bottom: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 0.75rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .testimonial-indicators button {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #e67e22;
+    background: transparent;
+    opacity: 0.5;
+    padding: 0;
+    transition: all 0.4s ease;
+    cursor: pointer;
+  }
+
+  .testimonial-indicators button.active {
+    opacity: 1;
+    background: #e67e22;
+    transform: scale(1.2);
+  }
+
+  @media (max-width: 991.98px) {
+    .testimonial-control {
+      width: 40px;
+      height: 40px;
+      font-size: 1rem;
+    }
+
+    .testimonial-control.prev {
+      left: -20px;
+    }
+
+    .testimonial-control.next {
+      right: -20px;
+    }
+  }
+
+  @media (max-width: 767.98px) {
+    .testimonial-control {
+      width: 35px;
+      height: 35px;
+      background: rgba(255,255,255,0.9);
+      opacity: 0.7;
+    }
+
+    .testimonial-control.prev {
+      left: -10px;
+    }
+
+    .testimonial-control.next {
+      right: -10px;
+    }
   }
 </style>
 @endsection
