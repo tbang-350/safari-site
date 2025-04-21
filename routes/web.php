@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Admin\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +26,12 @@ Route::view('/contact', 'contact');
 Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
 Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
 
+// Authentication Routes (disable registration)
+Auth::routes(['register' => false]);
+
 // Admin Routes (protected by auth middleware)
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
-    Route::view('/', 'dashboard');
+    Route::view('/', 'dashboard')->name('dashboard');
 
     // Bookings Management
     Route::prefix('bookings')->name('admin.bookings.')->group(function () {
@@ -45,11 +49,20 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::delete('/{contact}', [ContactController::class, 'destroy'])->name('destroy');
     });
 
-    // Admin Dashboard Pages
-    Route::view('/analytics', 'admin.analytics');
-    Route::view('/settings', 'admin.settings');
-});
+    // User Management
+    Route::prefix('users')->name('admin.users.')->group(function () {
+        Route::get('/', [UserController::class, 'index'])->name('index');
+        Route::get('/create', [UserController::class, 'create'])->name('create');
+        Route::post('/', [UserController::class, 'store'])->name('store');
+        Route::get('/{user}', [UserController::class, 'show'])->name('show');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('update');
+        Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+    });
 
-Auth::routes();
+    // Admin Dashboard Pages
+    Route::view('/analytics', 'admin.analytics')->name('admin.analytics');
+    Route::view('/settings', 'admin.settings')->name('admin.settings');
+});
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
