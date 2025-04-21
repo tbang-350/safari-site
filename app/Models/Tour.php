@@ -26,6 +26,7 @@ class Tour extends Model
         'image_type',
         'image_source',
         'is_featured',
+        'active',
         'max_people',
         'difficulty_level',
         'included_services',
@@ -43,6 +44,7 @@ class Tour extends Model
         'duration' => 'integer',
         'max_people' => 'integer',
         'is_featured' => 'boolean',
+        'active' => 'boolean',
         'included_services' => 'array',
         'excluded_services' => 'array',
         'itinerary' => 'array'

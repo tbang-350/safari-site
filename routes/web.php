@@ -17,7 +17,7 @@ use App\Http\Controllers\Admin\UserController;
 */
 
 // Public Routes
-Route::view('/', 'landing');
+Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/tours', [App\Http\Controllers\TourController::class, 'index'])->name('tours.index');
 Route::get('/tours/{tour:slug}', [App\Http\Controllers\TourController::class, 'show'])->name('tours.show');
 Route::view('/about', 'about');

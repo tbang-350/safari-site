@@ -2,12 +2,22 @@
 
 @section('content')
   <!-- Hero -->
-  <div class="bg-image" style="background-image: url('{{ asset('media/photos/photo21@2x.jpg') }}');">
-    <div class="bg-black-50">
-      <div class="content content-full text-center">
-        <div class="my-3">
-          <h1 class="h2 text-white mb-2">Discover Amazing Adventures</h1>
-          <h2 class="h4 fw-normal text-white-75">Experience the best tours with us</h2>
+  <div class="hero overflow-hidden bg-image" style="background-image: url('{{ asset('media/photos/photo21@2x.jpg') }}'); background-size: cover; background-position: center; min-height: 90vh;">
+    <div class="hero-inner">
+      <div class="content content-full text-center pt-7 pb-5">
+        <h1 class="fw-bold text-white mb-2 move-up-on-hover" style="font-size: 3.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+          Tanzania <span class="text-warning">Safari</span> Adventures
+        </h1>
+        <h2 class="h3 fw-medium text-white-75 mb-5 move-up-on-hover" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
+          Experience the magic of African wildlife and breathtaking landscapes
+        </h2>
+        <div class="d-flex justify-content-center gap-3">
+          <a class="btn btn-hero btn-primary px-4 py-3 d-inline-block" href="#tours">
+            <i class="fa fa-fw fa-compass me-1"></i> Explore Tours
+          </a>
+          <a class="btn btn-hero btn-alt-success px-4 py-3 d-inline-block" href="#booking">
+            <i class="fa fa-fw fa-calendar-alt me-1"></i> Book Now
+        </a>
         </div>
       </div>
     </div>
