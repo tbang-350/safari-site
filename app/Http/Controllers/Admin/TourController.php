@@ -25,7 +25,7 @@ class TourController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.tours.create');
     }
 
     /**
@@ -34,16 +34,19 @@ class TourController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'duration' => 'required|integer|min:1',
             'location' => 'required|string|max:255',
-            'image' => 'nullable|image|max:2048',
-            'difficulty' => 'required|in:easy,moderate,challenging',
-            'featured' => 'boolean',
-            'active' => 'boolean',
-            'highlights' => 'nullable|string',
+            'image_type' => 'required|in:custom,pexels',
+            'image' => 'required_if:image_type,custom|image|max:2048',
+            'image_source' => 'required_if:image_type,pexels|url',
+            'difficulty_level' => 'required|in:easy,moderate,challenging',
+            'is_featured' => 'boolean',
+            'max_people' => 'nullable|integer|min:1',
+            'included_services' => 'nullable|string',
+            'excluded_services' => 'nullable|string',
             'itinerary' => 'nullable|string',
         ]);
 
@@ -52,12 +55,19 @@ class TourController extends Controller
         }
 
         $data = $request->except('image');
-        $data['slug'] = Str::slug($request->name);
+        $data['slug'] = Str::slug($request->title);
 
         // Handle image upload
-        if ($request->hasFile('image')) {
+        if ($request->image_type === 'custom' && $request->hasFile('image')) {
             $path = $request->file('image')->store('tours', 'public');
-            $data['image'] = $path;
+            $data['image_source'] = $path;
+        }
+
+        // Convert newline-separated text to JSON arrays
+        foreach (['included_services', 'excluded_services', 'itinerary'] as $field) {
+            if ($request->has($field)) {
+                $data[$field] = array_filter(explode("\n", $request->$field), 'trim');
+            }
         }
 
         $tour = Tour::create($data);
@@ -91,16 +101,19 @@ class TourController extends Controller
     public function update(Request $request, Tour $tour)
     {
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:255',
+            'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'duration' => 'required|integer|min:1',
             'location' => 'required|string|max:255',
+            'image_type' => 'required|in:custom,pexels',
             'image' => 'nullable|image|max:2048',
-            'difficulty' => 'required|in:easy,moderate,challenging',
-            'featured' => 'boolean',
-            'active' => 'boolean',
-            'highlights' => 'nullable|string',
+            'image_source' => 'required_if:image_type,pexels|url',
+            'difficulty_level' => 'required|in:easy,moderate,challenging',
+            'is_featured' => 'boolean',
+            'max_people' => 'nullable|integer|min:1',
+            'included_services' => 'nullable|string',
+            'excluded_services' => 'nullable|string',
             'itinerary' => 'nullable|string',
         ]);
 
@@ -109,17 +122,24 @@ class TourController extends Controller
         }
 
         $data = $request->except('image');
-        $data['slug'] = Str::slug($request->name);
+        $data['slug'] = Str::slug($request->title);
 
         // Handle image upload
-        if ($request->hasFile('image')) {
-            // Delete old image
-            if ($tour->image) {
-                Storage::disk('public')->delete($tour->image);
+        if ($request->image_type === 'custom' && $request->hasFile('image')) {
+            // Delete old image if it exists
+            if ($tour->image_type === 'custom' && $tour->image_source) {
+                Storage::disk('public')->delete($tour->image_source);
             }
 
             $path = $request->file('image')->store('tours', 'public');
-            $data['image'] = $path;
+            $data['image_source'] = $path;
+        }
+
+        // Convert newline-separated text to JSON arrays
+        foreach (['included_services', 'excluded_services', 'itinerary'] as $field) {
+            if ($request->has($field)) {
+                $data[$field] = array_filter(explode("\n", $request->$field), 'trim');
+            }
         }
 
         $tour->update($data);
@@ -136,9 +156,9 @@ class TourController extends Controller
      */
     public function destroy(Tour $tour)
     {
-        // Delete image if exists
-        if ($tour->image) {
-            Storage::disk('public')->delete($tour->image);
+        // Delete image if it exists and is a custom upload
+        if ($tour->image_type === 'custom' && $tour->image_source) {
+            Storage::disk('public')->delete($tour->image_source);
         }
 
         $tour->delete();

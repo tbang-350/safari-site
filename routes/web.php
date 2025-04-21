@@ -18,7 +18,8 @@ use App\Http\Controllers\Admin\UserController;
 
 // Public Routes
 Route::view('/', 'landing');
-Route::view('/tours', 'tours');
+Route::get('/tours', [App\Http\Controllers\TourController::class, 'index'])->name('tours.index');
+Route::get('/tours/{tour:slug}', [App\Http\Controllers\TourController::class, 'show'])->name('tours.show');
 Route::view('/about', 'about');
 Route::view('/contact', 'contact');
 
@@ -65,9 +66,17 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
     // Tours Management
     Route::prefix('tours')->name('admin.tours.')->group(function () {
         Route::get('/', [App\Http\Controllers\Admin\TourController::class, 'index'])->name('index');
+        Route::get('/create', [App\Http\Controllers\Admin\TourController::class, 'create'])->name('create');
         Route::post('/', [App\Http\Controllers\Admin\TourController::class, 'store'])->name('store');
         Route::put('/{tour}', [App\Http\Controllers\Admin\TourController::class, 'update'])->name('update');
         Route::delete('/{tour}', [App\Http\Controllers\Admin\TourController::class, 'destroy'])->name('destroy');
+    });
+
+    // Pexels API Routes
+    Route::prefix('pexels')->name('admin.pexels.')->group(function () {
+        Route::get('/search', [App\Http\Controllers\Admin\PexelsController::class, 'search'])->name('search');
+        Route::get('/curated', [App\Http\Controllers\Admin\PexelsController::class, 'curated'])->name('curated');
+        Route::get('/photos/{id}', [App\Http\Controllers\Admin\PexelsController::class, 'show'])->name('show');
     });
 
     // Admin Dashboard Pages

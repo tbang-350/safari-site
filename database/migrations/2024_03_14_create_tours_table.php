@@ -13,18 +13,20 @@ return new class extends Migration
     {
         Schema::create('tours', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('title');
             $table->string('slug')->unique();
             $table->text('description');
-            $table->text('highlights')->nullable();
-            $table->text('itinerary')->nullable();
+            $table->integer('duration')->comment('Duration in days');
             $table->decimal('price', 10, 2);
-            $table->integer('duration')->comment('in days');
+            $table->enum('image_type', ['pexels', 'custom'])->default('custom');
+            $table->string('image_source')->nullable();
+            $table->boolean('is_featured')->default(false);
+            $table->integer('max_people')->nullable();
             $table->string('location');
-            $table->string('image')->nullable();
-            $table->string('difficulty')->default('easy')->comment('easy, moderate, challenging');
-            $table->boolean('featured')->default(false);
-            $table->boolean('active')->default(true);
+            $table->enum('difficulty_level', ['easy', 'moderate', 'challenging'])->default('moderate');
+            $table->json('included_services')->nullable();
+            $table->json('excluded_services')->nullable();
+            $table->json('itinerary')->nullable();
             $table->timestamps();
         });
     }

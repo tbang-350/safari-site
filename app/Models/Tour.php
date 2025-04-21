@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use App\Services\PexelsService;
 
 class Tour extends Model
 {
@@ -16,18 +17,20 @@ class Tour extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'title',
         'slug',
         'description',
-        'highlights',
-        'itinerary',
         'price',
         'duration',
         'location',
-        'image',
-        'difficulty',
-        'featured',
-        'active',
+        'image_type',
+        'image_source',
+        'is_featured',
+        'max_people',
+        'difficulty_level',
+        'included_services',
+        'excluded_services',
+        'itinerary'
     ];
 
     /**
@@ -38,8 +41,11 @@ class Tour extends Model
     protected $casts = [
         'price' => 'decimal:2',
         'duration' => 'integer',
-        'featured' => 'boolean',
-        'active' => 'boolean',
+        'max_people' => 'integer',
+        'is_featured' => 'boolean',
+        'included_services' => 'array',
+        'excluded_services' => 'array',
+        'itinerary' => 'array'
     ];
 
     /**
@@ -51,7 +57,7 @@ class Tour extends Model
 
         static::creating(function ($tour) {
             if (empty($tour->slug)) {
-                $tour->slug = Str::slug($tour->name);
+                $tour->slug = Str::slug($tour->title);
             }
         });
     }
@@ -62,5 +68,35 @@ class Tour extends Model
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    /**
+     * Get the tour's image URL
+     *
+     * @return string
+     */
+    public function getImageUrlAttribute()
+    {
+        if ($this->image_type === 'pexels') {
+            return $this->image_source;
+        }
+
+        return $this->image_source ? asset('storage/' . $this->image_source) : null;
+    }
+
+    /**
+     * Get the tour's thumbnail URL
+     *
+     * @return string
+     */
+    public function getThumbnailUrlAttribute()
+    {
+        if ($this->image_type === 'pexels') {
+            // For Pexels images, we'll use the same URL as they're already optimized
+            return $this->image_source;
+        }
+
+        // For custom uploads, you might want to generate/store thumbnails separately
+        return $this->image_source ? asset('storage/' . $this->image_source) : null;
     }
 }

@@ -1,5 +1,41 @@
 @extends('layouts.backend')
 
+@section('css')
+<style>
+.options-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 0.25rem;
+}
+
+.options-container.selected {
+    border: 3px solid #82b54b;
+}
+
+.options-item {
+    width: 100%;
+    height: auto;
+}
+
+.options-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+}
+
+.options-container:hover .options-overlay {
+    opacity: 1;
+}
+</style>
+@endsection
+
 @section('content')
     <!-- Hero -->
     <div class="bg-body-light">
@@ -29,9 +65,12 @@
             <div class="block-header block-header-default">
                 <h3 class="block-title">All Tours</h3>
                 <div class="block-options">
-                    <button type="button" class="btn btn-alt-primary" data-bs-toggle="modal" data-bs-target="#modal-new-tour">
+                    {{-- <button type="button" class="btn btn-alt-primary" data-bs-toggle="modal" data-bs-target="#modal-new-tour">
                         <i class="fa fa-fw fa-plus me-1"></i> Add New Tour
-                    </button>
+                    </button> --}}
+                    <a href="{{ route('admin.tours.create') }}" class="btn btn-alt-primary">
+                        <i class="fa fa-fw fa-plus me-1"></i> Add New Tour
+                    </a>
                 </div>
             </div>
             <div class="block-content">
@@ -40,11 +79,11 @@
                         <thead>
                             <tr>
                                 <th style="width: 60px;">Image</th>
-                                <th>Name</th>
+                                <th>Title</th>
                                 <th>Price</th>
                                 <th>Duration</th>
                                 <th>Location</th>
-                                <th>Status</th>
+                                <th>Featured</th>
                                 <th class="text-center" style="width: 100px;">Actions</th>
                             </tr>
                         </thead>
@@ -52,15 +91,16 @@
                             @forelse($tours as $tour)
                                 <tr data-tour-id="{{ $tour->id }}">
                                     <td>
-                                        @if($tour->image)
-                                            <img src="{{ asset('storage/' . $tour->image) }}" alt="{{ $tour->name }}" class="img-avatar img-avatar48">
+                                        @if($tour->image_source)
+                                            <img src="{{ $tour->image_type === 'pexels' ? $tour->image_source : asset('storage/' . $tour->image_source) }}"
+                                                alt="{{ $tour->title }}" class="img-avatar img-avatar48">
                                         @else
                                             <img src="{{ asset('media/avatars/avatar0.jpg') }}" alt="No Image" class="img-avatar img-avatar48">
                                         @endif
                                     </td>
                                     <td class="fw-semibold">
-                                        {{ $tour->name }}
-                                        @if($tour->featured)
+                                        {{ $tour->title }}
+                                        @if($tour->is_featured)
                                             <span class="badge bg-warning ms-1">Featured</span>
                                         @endif
                                     </td>
@@ -68,11 +108,9 @@
                                     <td>{{ $tour->duration }} days</td>
                                     <td>{{ $tour->location }}</td>
                                     <td>
-                                        @if($tour->active)
-                                            <span class="badge bg-success">Active</span>
-                                        @else
-                                            <span class="badge bg-danger">Inactive</span>
-                                        @endif
+                                        <span class="badge bg-{{ $tour->is_featured ? 'success' : 'secondary' }}">
+                                            {{ $tour->is_featured ? 'Yes' : 'No' }}
+                                        </span>
                                     </td>
                                     <td class="text-center">
                                         <div class="btn-group">
@@ -85,7 +123,7 @@
                                             </button>
                                             <button type="button" class="btn btn-sm btn-alt-secondary delete-tour-btn"
                                                 data-tour-id="{{ $tour->id }}"
-                                                data-tour-name="{{ $tour->name }}">
+                                                data-tour-title="{{ $tour->title }}">
                                                 <i class="fa fa-fw fa-times"></i>
                                             </button>
                                         </div>
@@ -130,9 +168,9 @@
                             @csrf
                             <div class="col-md-6">
                                 <div class="mb-4">
-                                    <label class="form-label" for="name">Tour Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="name" name="name" required>
-                                    <div class="invalid-feedback" id="name-error"></div>
+                                    <label class="form-label" for="title">Tour Title <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="title" name="title" required>
+                                    <div class="invalid-feedback" id="title-error"></div>
                                 </div>
 
                                 <div class="mb-4">
@@ -157,32 +195,61 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label" for="difficulty">Difficulty <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="difficulty" name="difficulty" required>
+                                    <label class="form-label" for="max_people">Maximum People</label>
+                                    <input type="number" class="form-control" id="max_people" name="max_people" min="1">
+                                    <div class="invalid-feedback" id="max_people-error"></div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label" for="difficulty_level">Difficulty Level <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="difficulty_level" name="difficulty_level" required>
                                         <option value="easy">Easy</option>
                                         <option value="moderate">Moderate</option>
                                         <option value="challenging">Challenging</option>
                                     </select>
-                                    <div class="invalid-feedback" id="difficulty-error"></div>
+                                    <div class="invalid-feedback" id="difficulty_level-error"></div>
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label" for="image">Tour Image</label>
+                                    <label class="form-label">Image Source</label>
+                                    <div class="space-y-2">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="image_type" id="image_type_custom" value="custom" checked>
+                                            <label class="form-check-label" for="image_type_custom">Upload Image</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="image_type" id="image_type_pexels" value="pexels">
+                                            <label class="form-check-label" for="image_type_pexels">Search Pexels</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div id="custom-image-upload" class="mb-4">
+                                    <label class="form-label" for="image">Upload Image</label>
                                     <input type="file" class="form-control" id="image" name="image" accept="image/*">
                                     <div class="invalid-feedback" id="image-error"></div>
                                 </div>
 
-                                <div class="mb-4">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="featured" name="featured" value="1">
-                                        <label class="form-check-label" for="featured">Featured Tour</label>
+                                <div id="pexels-image-search" class="mb-4" style="display: none;">
+                                    <div class="mb-3">
+                                        <label class="form-label" for="pexels_search">Search Pexels Images</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="pexels_search" placeholder="Search for images...">
+                                            <button type="button" class="btn btn-alt-primary" id="search-pexels">
+                                                <i class="fa fa-search"></i>
+                                            </button>
+                                        </div>
                                     </div>
+                                    <div id="pexels-results" class="row g-2">
+                                        <!-- Pexels images will be loaded here -->
+                                    </div>
+                                    <input type="hidden" name="image_source" id="selected_image">
                                 </div>
 
                                 <div class="mb-4">
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="active" name="active" value="1" checked>
-                                        <label class="form-check-label" for="active">Active</label>
+                                        <input class="form-check-input" type="checkbox" id="is_featured" name="is_featured" value="1">
+                                        <label class="form-check-label" for="is_featured">Featured Tour</label>
                                     </div>
                                 </div>
                             </div>
@@ -195,16 +262,23 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label" for="highlights">Highlights</label>
-                                    <textarea class="form-control" id="highlights" name="highlights" rows="4"></textarea>
-                                    <div class="form-text">Enter each highlight on a new line</div>
-                                    <div class="invalid-feedback" id="highlights-error"></div>
+                                    <label class="form-label" for="included_services">Included Services</label>
+                                    <textarea class="form-control" id="included_services" name="included_services" rows="4"></textarea>
+                                    <div class="form-text">Enter each service on a new line</div>
+                                    <div class="invalid-feedback" id="included_services-error"></div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label" for="excluded_services">Not Included</label>
+                                    <textarea class="form-control" id="excluded_services" name="excluded_services" rows="4"></textarea>
+                                    <div class="form-text">Enter each item on a new line</div>
+                                    <div class="invalid-feedback" id="excluded_services-error"></div>
                                 </div>
 
                                 <div class="mb-4">
                                     <label class="form-label" for="itinerary">Itinerary</label>
-                                    <textarea class="form-control" id="itinerary" name="itinerary" rows="5"></textarea>
-                                    <div class="form-text">Detailed day-by-day itinerary</div>
+                                    <textarea class="form-control" id="itinerary" name="itinerary" rows="4"></textarea>
+                                    <div class="form-text">Enter each day's itinerary on a new line</div>
                                     <div class="invalid-feedback" id="itinerary-error"></div>
                                 </div>
                             </div>
@@ -212,8 +286,8 @@
                     </div>
                     <div class="block-content block-content-full text-end bg-body">
                         <button type="button" class="btn btn-sm btn-alt-secondary me-1" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-sm btn-primary" id="create-tour-btn">
-                            <i class="fa fa-fw fa-check me-1"></i> Create Tour
+                        <button type="button" class="btn btn-sm btn-primary" id="submit-new-tour">
+                            <i class="fa fa-check me-1"></i> Create Tour
                         </button>
                     </div>
                 </div>
@@ -243,9 +317,9 @@
 
                             <div class="col-md-6">
                                 <div class="mb-4">
-                                    <label class="form-label" for="edit-name">Tour Name <span class="text-danger">*</span></label>
-                                    <input type="text" class="form-control" id="edit-name" name="name" required>
-                                    <div class="invalid-feedback" id="edit-name-error"></div>
+                                    <label class="form-label" for="edit-title">Tour Title <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="edit-title" name="title" required>
+                                    <div class="invalid-feedback" id="edit-title-error"></div>
                                 </div>
 
                                 <div class="mb-4">
@@ -270,13 +344,13 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label" for="edit-difficulty">Difficulty <span class="text-danger">*</span></label>
-                                    <select class="form-select" id="edit-difficulty" name="difficulty" required>
+                                    <label class="form-label" for="edit-difficulty_level">Difficulty Level <span class="text-danger">*</span></label>
+                                    <select class="form-select" id="edit-difficulty_level" name="difficulty_level" required>
                                         <option value="easy">Easy</option>
                                         <option value="moderate">Moderate</option>
                                         <option value="challenging">Challenging</option>
                                     </select>
-                                    <div class="invalid-feedback" id="edit-difficulty-error"></div>
+                                    <div class="invalid-feedback" id="edit-difficulty_level-error"></div>
                                 </div>
 
                                 <div class="mb-4">
@@ -291,15 +365,8 @@
 
                                 <div class="mb-4">
                                     <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="edit-featured" name="featured" value="1">
-                                        <label class="form-check-label" for="edit-featured">Featured Tour</label>
-                                    </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" type="checkbox" id="edit-active" name="active" value="1">
-                                        <label class="form-check-label" for="edit-active">Active</label>
+                                        <input class="form-check-input" type="checkbox" id="edit-is_featured" name="is_featured" value="1">
+                                        <label class="form-check-label" for="edit-is_featured">Featured Tour</label>
                                     </div>
                                 </div>
                             </div>
@@ -312,16 +379,23 @@
                                 </div>
 
                                 <div class="mb-4">
-                                    <label class="form-label" for="edit-highlights">Highlights</label>
-                                    <textarea class="form-control" id="edit-highlights" name="highlights" rows="4"></textarea>
-                                    <div class="form-text">Enter each highlight on a new line</div>
-                                    <div class="invalid-feedback" id="edit-highlights-error"></div>
+                                    <label class="form-label" for="edit-included_services">Included Services</label>
+                                    <textarea class="form-control" id="edit-included_services" name="included_services" rows="4"></textarea>
+                                    <div class="form-text">Enter each service on a new line</div>
+                                    <div class="invalid-feedback" id="edit-included_services-error"></div>
+                                </div>
+
+                                <div class="mb-4">
+                                    <label class="form-label" for="edit-excluded_services">Not Included</label>
+                                    <textarea class="form-control" id="edit-excluded_services" name="excluded_services" rows="4"></textarea>
+                                    <div class="form-text">Enter each item on a new line</div>
+                                    <div class="invalid-feedback" id="edit-excluded_services-error"></div>
                                 </div>
 
                                 <div class="mb-4">
                                     <label class="form-label" for="edit-itinerary">Itinerary</label>
-                                    <textarea class="form-control" id="edit-itinerary" name="itinerary" rows="5"></textarea>
-                                    <div class="form-text">Detailed day-by-day itinerary</div>
+                                    <textarea class="form-control" id="edit-itinerary" name="itinerary" rows="4"></textarea>
+                                    <div class="form-text">Enter each day's itinerary on a new line</div>
                                     <div class="invalid-feedback" id="edit-itinerary-error"></div>
                                 </div>
                             </div>
@@ -353,7 +427,7 @@
                         </div>
                     </div>
                     <div class="block-content fs-sm">
-                        <p>Are you sure you want to delete the tour <strong id="delete-tour-name"></strong>?</p>
+                        <p>Are you sure you want to delete the tour <strong id="delete-tour-title"></strong>?</p>
                         <p class="text-danger">This action cannot be undone.</p>
                     </div>
                     <div class="block-content block-content-full text-end bg-body">
@@ -369,168 +443,6 @@
     <!-- END Delete Tour Confirmation Modal -->
 @endsection
 
-@section('js')
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Create new tour
-        document.getElementById('create-tour-btn').addEventListener('click', function() {
-            const form = document.getElementById('new-tour-form');
-            const formData = new FormData(form);
-
-            // Reset error messages
-            form.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
-            form.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
-
-            fetch('{{ route("admin.tours.store") }}', {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.errors) {
-                    // Display validation errors
-                    Object.keys(data.errors).forEach(key => {
-                        const errorMsg = data.errors[key][0];
-                        const errorElement = document.getElementById(`${key}-error`);
-                        const inputElement = document.getElementById(key);
-
-                        if (errorElement && inputElement) {
-                            errorElement.textContent = errorMsg;
-                            inputElement.classList.add('is-invalid');
-                        }
-                    });
-                } else if (data.success) {
-                    // Close modal and reload page to show new tour
-                    bootstrap.Modal.getInstance(document.getElementById('modal-new-tour')).hide();
-                    window.location.reload();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while creating the tour.');
-            });
-        });
-
-        // Edit tour modal
-        document.querySelectorAll('.edit-tour-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const tourData = JSON.parse(this.getAttribute('data-tour-data'));
-
-                // Populate the form fields
-                document.getElementById('edit-tour-id').value = tourData.id;
-                document.getElementById('edit-name').value = tourData.name;
-                document.getElementById('edit-price').value = tourData.price;
-                document.getElementById('edit-duration').value = tourData.duration;
-                document.getElementById('edit-location').value = tourData.location;
-                document.getElementById('edit-difficulty').value = tourData.difficulty;
-                document.getElementById('edit-description').value = tourData.description;
-                document.getElementById('edit-highlights').value = tourData.highlights;
-                document.getElementById('edit-itinerary').value = tourData.itinerary;
-
-                // Handle checkboxes
-                document.getElementById('edit-featured').checked = tourData.featured;
-                document.getElementById('edit-active').checked = tourData.active;
-
-                // Show current image if exists
-                const imagePreview = document.getElementById('current-image-preview');
-                if (tourData.image) {
-                    imagePreview.classList.remove('d-none');
-                    imagePreview.querySelector('img').src = `/storage/${tourData.image}`;
-                } else {
-                    imagePreview.classList.add('d-none');
-                }
-            });
-        });
-
-        // Update tour
-        document.getElementById('update-tour-btn').addEventListener('click', function() {
-            const form = document.getElementById('edit-tour-form');
-            const formData = new FormData(form);
-            const tourId = document.getElementById('edit-tour-id').value;
-
-            // Reset error messages
-            form.querySelectorAll('.invalid-feedback').forEach(el => el.textContent = '');
-            form.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
-
-            fetch(`{{ url('dashboard/tours') }}/${tourId}`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.errors) {
-                    // Display validation errors
-                    Object.keys(data.errors).forEach(key => {
-                        const errorMsg = data.errors[key][0];
-                        const errorElement = document.getElementById(`edit-${key}-error`);
-                        const inputElement = document.getElementById(`edit-${key}`);
-
-                        if (errorElement && inputElement) {
-                            errorElement.textContent = errorMsg;
-                            inputElement.classList.add('is-invalid');
-                        }
-                    });
-                } else if (data.success) {
-                    // Close modal and reload page to show updated tour
-                    bootstrap.Modal.getInstance(document.getElementById('modal-edit-tour')).hide();
-                    window.location.reload();
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while updating the tour.');
-            });
-        });
-
-        // Delete tour confirmaiton modal
-        document.querySelectorAll('.delete-tour-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const tourId = this.getAttribute('data-tour-id');
-                const tourName = this.getAttribute('data-tour-name');
-
-                document.getElementById('delete-tour-name').textContent = tourName;
-
-                const modal = new bootstrap.Modal(document.getElementById('modal-delete-tour'));
-                modal.show();
-
-                document.getElementById('confirm-delete-tour-btn').setAttribute('data-tour-id', tourId);
-            });
-        });
-
-        // Delete tour
-        document.getElementById('confirm-delete-tour-btn').addEventListener('click', function() {
-            const tourId = this.getAttribute('data-tour-id');
-
-            fetch(`{{ url('dashboard/tours') }}/${tourId}`, {
-                method: 'DELETE',
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    'Accept': 'application/json'
-                }
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Close modal and reload page
-                    bootstrap.Modal.getInstance(document.getElementById('modal-delete-tour')).hide();
-                    window.location.reload();
-                } else {
-                    alert('An error occurred while deleting the tour.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred while deleting the tour.');
-            });
-        });
-    });
-</script>
-@endsection
+@push('js')
+    @vite(['resources/js/admin/tours.js'])
+@endpush
