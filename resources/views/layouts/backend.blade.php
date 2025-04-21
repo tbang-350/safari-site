@@ -5,11 +5,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-  <title>Dashmix - Bootstrap 5 Admin Template &amp; UI Framework</title>
+  <title>Tanzania Safari Adventures - Admin Panel</title>
 
-  <meta name="description" content="Dashmix - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave">
-  <meta name="author" content="pixelcave">
-  <meta name="robots" content="index, follow">
+  <meta name="description" content="Tanzania Safari Adventures - Admin Dashboard">
+  <meta name="author" content="Tanzania Safari Adventures">
+  <meta name="robots" content="noindex, nofollow">
 
   <!-- Icons -->
   <link rel="shortcut icon" href="{{ asset('media/favicons/favicon.png') }}">
@@ -70,12 +70,12 @@
       ''                                          Full width Main Content if no class is added
       'main-content-boxed'                        Full width Main Content with a specific maximum width (screen width > 1200px)
       'main-content-narrow'                       Full width Main Content with a percentage width (screen width > 1200px)
-        
+
     DARK MODE
 
       'sidebar-dark page-header-dark dark-mode'   Enable dark mode (light sidebar/header is not supported with dark mode)
   -->
-  <div id="page-container" class="sidebar-o enable-page-overlay sidebar-dark side-scroll page-header-fixed main-content-narrow">
+  <div id="page-container" class="sidebar-o enable-page-overlay sidebar-dark side-scroll page-header-fixed">
     <!-- Side Overlay-->
     <aside id="side-overlay">
       <!-- Side Header -->
@@ -90,8 +90,8 @@
 
             <!-- User Info -->
             <div class="ms-2">
-              <a class="text-white fw-semibold" href="javascript:void(0)">George Taylor</a>
-              <div class="text-white-75 fs-sm">Full Stack Developer</div>
+              <a class="text-white fw-semibold" href="javascript:void(0)">Admin User</a>
+              <div class="text-white-75 fs-sm">Administrator</div>
             </div>
             <!-- END User Info -->
 
@@ -109,6 +109,22 @@
       <!-- Side Content -->
       <div class="content-side">
         <div class="block pull-x mb-0">
+          <!-- Color Themes -->
+          <div class="block-content block-content-sm block-content-full bg-body">
+            <span class="text-uppercase fs-sm fw-bold">Color Themes</span>
+          </div>
+          <div class="block-content block-content-full">
+            <div class="row g-sm text-center">
+              <div class="col-6 mb-1">
+                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="theme" data-theme="default" href="javascript:void(0)">Default</a>
+              </div>
+              <div class="col-6 mb-1">
+                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="theme" data-theme="{{ mix('/css/themes/xwork.css') }}" href="javascript:void(0)">xWork</a>
+              </div>
+            </div>
+          </div>
+          <!-- END Color Themes -->
+
           <!-- Sidebar -->
           <div class="block-content block-content-sm block-content-full bg-body">
             <span class="text-uppercase fs-sm fw-bold">Sidebar</span>
@@ -124,59 +140,6 @@
             </div>
           </div>
           <!-- END Sidebar -->
-
-          <!-- Header -->
-          <div class="block-content block-content-sm block-content-full bg-body">
-            <span class="text-uppercase fs-sm fw-bold">Header</span>
-          </div>
-          <div class="block-content block-content-full">
-            <div class="row g-sm text-center mb-2">
-              <div class="col-6 mb-1">
-                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="layout" data-action="header_style_dark" href="javascript:void(0)">Dark</a>
-              </div>
-              <div class="col-6 mb-1">
-                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="layout" data-action="header_style_light" href="javascript:void(0)">Light</a>
-              </div>
-              <div class="col-6 mb-1">
-                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="layout" data-action="header_mode_fixed" href="javascript:void(0)">Fixed</a>
-              </div>
-              <div class="col-6 mb-1">
-                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="layout" data-action="header_mode_static" href="javascript:void(0)">Static</a>
-              </div>
-            </div>
-          </div>
-          <!-- END Header -->
-
-          <!-- Content -->
-          <div class="block-content block-content-sm block-content-full bg-body">
-            <span class="text-uppercase fs-sm fw-bold">Content</span>
-          </div>
-          <div class="block-content block-content-full">
-            <div class="row g-sm text-center">
-              <div class="col-6 mb-1">
-                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="layout" data-action="content_layout_boxed" href="javascript:void(0)">Boxed</a>
-              </div>
-              <div class="col-6 mb-1">
-                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="layout" data-action="content_layout_narrow" href="javascript:void(0)">Narrow</a>
-              </div>
-              <div class="col-12 mb-1">
-                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="layout" data-action="content_layout_full_width" href="javascript:void(0)">Full Width</a>
-              </div>
-            </div>
-          </div>
-          <!-- END Content -->
-        </div>
-        <div class="block pull-x mb-0">
-          <!-- Content -->
-          <div class="block-content block-content-sm block-content-full bg-body">
-            <span class="text-uppercase fs-sm fw-bold">Heading</span>
-          </div>
-          <div class="block-content">
-            <p>
-              Content..
-            </p>
-          </div>
-          <!-- END Content -->
         </div>
       </div>
       <!-- END Side Content -->
@@ -200,12 +163,12 @@
       <div class="bg-header-dark">
         <div class="content-header bg-white-5">
           <!-- Logo -->
-          <a class="fw-semibold text-white tracking-wide" href="/">
+          <a class="fw-semibold text-white tracking-wide" href="{{ route('admin.dashboard') }}">
             <span class="smini-visible">
-              D<span class="opacity-75">x</span>
+              TS<span class="opacity-75">A</span>
             </span>
             <span class="smini-hidden">
-              Dash<span class="opacity-75">mix</span>
+              Tanzania<span class="opacity-75">Safari</span>
             </span>
           </a>
           <!-- END Logo -->
@@ -245,41 +208,83 @@
         <div class="content-side content-side-full">
           <ul class="nav-main">
             <li class="nav-main-item">
-              <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}" href="/dashboard">
-                <i class="nav-main-link-icon fa fa-location-arrow"></i>
+              <a class="nav-main-link{{ request()->routeIs('admin.dashboard') ? ' active' : '' }}" href="{{ route('admin.dashboard') }}">
+                <i class="nav-main-link-icon fa fa-tachometer-alt"></i>
                 <span class="nav-main-link-name">Dashboard</span>
-                <span class="nav-main-link-badge badge rounded-pill bg-primary">5</span>
               </a>
             </li>
-            <li class="nav-main-heading">Various</li>
-            <li class="nav-main-item{{ request()->is('pages/*') ? ' open' : '' }}">
-              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="true" href="#">
-                <i class="nav-main-link-icon fa fa-lightbulb"></i>
-                <span class="nav-main-link-name">Examples</span>
+
+            <li class="nav-main-heading">Bookings</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link{{ request()->routeIs('admin.bookings.index') ? ' active' : '' }}" href="{{ route('admin.bookings.index') }}">
+                <i class="nav-main-link-icon fa fa-calendar"></i>
+                <span class="nav-main-link-name">All Bookings</span>
+              </a>
+            </li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="#">
+                <i class="nav-main-link-icon fa fa-calendar-check"></i>
+                <span class="nav-main-link-name">Upcoming Bookings</span>
+                <span class="nav-main-link-badge badge rounded-pill bg-primary">43</span>
+              </a>
+            </li>
+
+            <li class="nav-main-heading">Communication</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link{{ request()->routeIs('admin.contacts.index') ? ' active' : '' }}" href="{{ route('admin.contacts.index') }}">
+                <i class="nav-main-link-icon fa fa-envelope"></i>
+                <span class="nav-main-link-name">Messages</span>
+                <span class="nav-main-link-badge badge rounded-pill bg-success">12</span>
+              </a>
+            </li>
+
+            <li class="nav-main-heading">Analytics</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link{{ request()->routeIs('admin.analytics') ? ' active' : '' }}" href="{{ route('admin.analytics') }}">
+                <i class="nav-main-link-icon fa fa-chart-line"></i>
+                <span class="nav-main-link-name">Reports</span>
+              </a>
+            </li>
+
+            <li class="nav-main-heading">Management</li>
+            <li class="nav-main-item{{ request()->routeIs('admin.users.*') ? ' open' : '' }}">
+              <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="{{ request()->routeIs('admin.users.*') ? 'true' : 'false' }}" href="#">
+                <i class="nav-main-link-icon fa fa-users"></i>
+                <span class="nav-main-link-name">Users</span>
               </a>
               <ul class="nav-main-submenu">
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('pages/datatables') ? ' active' : '' }}" href="/pages/datatables">
-                    <span class="nav-main-link-name">DataTables</span>
+                  <a class="nav-main-link{{ request()->routeIs('admin.users.index') ? ' active' : '' }}" href="{{ route('admin.users.index') }}">
+                    <span class="nav-main-link-name">All Users</span>
                   </a>
                 </li>
                 <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('pages/slick') ? ' active' : '' }}" href="/pages/slick">
-                    <span class="nav-main-link-name">Slick Slider</span>
-                  </a>
-                </li>
-                <li class="nav-main-item">
-                  <a class="nav-main-link{{ request()->is('pages/blank') ? ' active' : '' }}" href="/pages/blank">
-                    <span class="nav-main-link-name">Blank</span>
+                  <a class="nav-main-link{{ request()->routeIs('admin.users.create') ? ' active' : '' }}" href="{{ route('admin.users.create') }}">
+                    <span class="nav-main-link-name">Add User</span>
                   </a>
                 </li>
               </ul>
             </li>
-            <li class="nav-main-heading">More</li>
             <li class="nav-main-item">
-              <a class="nav-main-link" href="/">
+              <a class="nav-main-link{{ request()->routeIs('admin.settings') ? ' active' : '' }}" href="{{ route('admin.settings') }}">
+                <i class="nav-main-link-icon fa fa-cog"></i>
+                <span class="nav-main-link-name">Settings</span>
+              </a>
+            </li>
+
+            <li class="nav-main-heading">Website Content</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link{{ request()->routeIs('admin.tours.index') ? ' active' : '' }}" href="{{ route('admin.tours.index') }}">
+                <i class="nav-main-link-icon fa fa-mountain"></i>
+                <span class="nav-main-link-name">Tours</span>
+              </a>
+            </li>
+
+            <li class="nav-main-heading">Website</li>
+            <li class="nav-main-item">
+              <a class="nav-main-link" href="/" target="_blank">
                 <i class="nav-main-link-icon fa fa-globe"></i>
-                <span class="nav-main-link-name">Landing</span>
+                <span class="nav-main-link-name">Visit Site</span>
               </a>
             </li>
           </ul>
@@ -329,13 +334,6 @@
                 <a class="dropdown-item" href="javascript:void(0)">
                   <i class="far fa-fw fa-user me-1"></i> Profile
                 </a>
-                <a class="dropdown-item d-flex align-items-center justify-content-between" href="javascript:void(0)">
-                  <span><i class="far fa-fw fa-envelope me-1"></i> Inbox</span>
-                  <span class="badge bg-primary rounded-pill">3</span>
-                </a>
-                <a class="dropdown-item" href="javascript:void(0)">
-                  <i class="far fa-fw fa-file-alt me-1"></i> Invoices
-                </a>
                 <div role="separator" class="dropdown-divider"></div>
 
                 <!-- Toggle Side Overlay -->
@@ -346,9 +344,13 @@
                 <!-- END Side Overlay -->
 
                 <div role="separator" class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0)">
+                <a class="dropdown-item" href="{{ route('logout') }}"
+                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                   <i class="far fa-fw fa-arrow-alt-circle-left me-1"></i> Sign Out
                 </a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                  @csrf
+                </form>
               </div>
             </div>
           </div>
@@ -358,6 +360,7 @@
           <div class="dropdown d-inline-block">
             <button type="button" class="btn btn-alt-secondary" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fa fa-fw fa-bell"></i>
+              <span class="badge bg-primary rounded-pill">3</span>
             </button>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-end p-0" aria-labelledby="page-header-notifications-dropdown">
               <div class="bg-primary-dark rounded-top fw-semibold text-white text-center p-3">
@@ -367,33 +370,21 @@
                 <li>
                   <a class="d-flex text-dark py-2" href="javascript:void(0)">
                     <div class="flex-shrink-0 mx-3">
-                      <i class="fa fa-fw fa-check-circle text-success"></i>
+                      <i class="fa fa-fw fa-user-plus text-success"></i>
                     </div>
                     <div class="flex-grow-1 fs-sm pe-2">
-                      <div class="fw-semibold">App was updated to v5.6!</div>
-                      <div class="text-muted">3 min ago</div>
+                      <div class="fw-semibold">New booking request!</div>
+                      <div class="text-muted">15 min ago</div>
                     </div>
                   </a>
                 </li>
                 <li>
                   <a class="d-flex text-dark py-2" href="javascript:void(0)">
                     <div class="flex-shrink-0 mx-3">
-                      <i class="fa fa-fw fa-user-plus text-info"></i>
+                      <i class="fa fa-fw fa-envelope text-info"></i>
                     </div>
                     <div class="flex-grow-1 fs-sm pe-2">
-                      <div class="fw-semibold">New Subscriber was added! You now have 2580!
-                      </div>
-                      <div class="text-muted">10 min ago</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a class="d-flex text-dark py-2" href="javascript:void(0)">
-                    <div class="flex-shrink-0 mx-3">
-                      <i class="fa fa-fw fa-times-circle text-danger"></i>
-                    </div>
-                    <div class="flex-grow-1 fs-sm pe-2">
-                      <div class="fw-semibold">Server backup failed to complete!</div>
+                      <div class="fw-semibold">You have 2 new messages</div>
                       <div class="text-muted">30 min ago</div>
                     </div>
                   </a>
@@ -401,23 +392,11 @@
                 <li>
                   <a class="d-flex text-dark py-2" href="javascript:void(0)">
                     <div class="flex-shrink-0 mx-3">
-                      <i class="fa fa-fw fa-exclamation-circle text-warning"></i>
+                      <i class="fa fa-fw fa-check-circle text-success"></i>
                     </div>
                     <div class="flex-grow-1 fs-sm pe-2">
-                      <div class="fw-semibold">You are running out of space. Please consider
-                        upgrading your plan.</div>
+                      <div class="fw-semibold">System updated to v1.2</div>
                       <div class="text-muted">1 hour ago</div>
-                    </div>
-                  </a>
-                </li>
-                <li>
-                  <a class="d-flex text-dark py-2" href="javascript:void(0)">
-                    <div class="flex-shrink-0 mx-3">
-                      <i class="fa fa-fw fa-plus-circle text-primary"></i>
-                    </div>
-                    <div class="flex-grow-1 fs-sm pe-2">
-                      <div class="fw-semibold">New Sale! + $30</div>
-                      <div class="text-muted">2 hours ago</div>
                     </div>
                   </a>
                 </li>
@@ -430,13 +409,6 @@
             </div>
           </div>
           <!-- END Notifications Dropdown -->
-
-          <!-- Toggle Side Overlay -->
-          <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-          <button type="button" class="btn btn-alt-secondary" data-toggle="layout" data-action="side_overlay_toggle">
-            <i class="far fa-fw fa-list-alt"></i>
-          </button>
-          <!-- END Toggle Side Overlay -->
         </div>
         <!-- END Right Section -->
       </div>
@@ -485,11 +457,11 @@
       <div class="content py-0">
         <div class="row fs-sm">
           <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-end">
-            Crafted with <i class="fa fa-heart text-danger"></i> by <a class="fw-semibold" href="https://pixelcave.com" target="_blank">pixelcave</a>
+            Created with <i class="fa fa-heart text-danger"></i> by <span class="fw-semibold">Tanzania Safari Adventures</span>
           </div>
           <div class="col-sm-6 order-sm-1 text-center text-sm-start">
-            <a class="fw-semibold" href="https://pixelcave.com/products/dashmix" target="_blank">Dashmix</a> &copy;
-            <span data-toggle="year-copy"></span>
+            <a class="fw-semibold" href="/">Tanzania Safari Adventures</a> &copy;
+            <span>{{ date('Y') }}</span>
           </div>
         </div>
       </div>

@@ -19,6 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@tanzaniasafari.com',
             'password' => Hash::make('password'),
             'email_verified_at' => now(),
+            'role' => 'admin',
         ]);
 
         // Add more users if needed for testing
@@ -28,6 +29,7 @@ class UserSeeder extends Seeder
                 'email' => 'test@tanzaniasafari.com',
                 'password' => Hash::make('password'),
                 'email_verified_at' => now(),
+                'role' => 'user',
             ]);
         }
     }

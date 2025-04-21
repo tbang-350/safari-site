@@ -43,6 +43,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8|confirmed',
+            'role' => 'required|in:user,admin',
         ]);
 
         if ($validator->fails()) {
@@ -57,6 +58,7 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'email_verified_at' => now(), // Auto verify for admin-created users
+            'role' => $request->role,
         ]);
 
         return redirect()->route('admin.users.index')
@@ -98,6 +100,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:8|confirmed',
+            'role' => 'required|in:user,admin',
         ]);
 
         if ($validator->fails()) {
@@ -110,6 +113,7 @@ class UserController extends Controller
         $data = [
             'name' => $request->name,
             'email' => $request->email,
+            'role' => $request->role,
         ];
 
         // Only update password if provided

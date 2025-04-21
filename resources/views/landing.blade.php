@@ -17,7 +17,7 @@
           </a>
           <a class="btn btn-hero btn-alt-success px-4 py-3 d-inline-block" href="#booking">
             <i class="fa fa-fw fa-calendar-alt me-1"></i> Book Now
-          </a>
+        </a>
         </div>
       </div>
     </div>

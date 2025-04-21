@@ -34,8 +34,8 @@
                             </div>
                         @endif
 
-                        <form method="POST" action="{{ route('login') }}">
-                            @csrf
+                    <form method="POST" action="{{ route('login') }}">
+                        @csrf
                             <div class="mb-4">
                                 <label class="form-label" for="email">Email</label>
                                 <input type="email" class="form-control form-control-lg form-control-alt" id="email" name="email" value="{{ old('email') }}" required autofocus>
@@ -46,7 +46,7 @@
                                     @if (Route::has('password.request'))
                                         <a href="{{ route('password.request') }}" class="text-muted fs-sm">Forgot Password?</a>
                                     @endif
-                                </div>
+                        </div>
                                 <input type="password" class="form-control form-control-lg form-control-alt" id="password" name="password" required>
                             </div>
                             <div class="mb-4">
@@ -61,7 +61,7 @@
                                 </button>
                             </div>
                         </form>
-                    </div>
+                        </div>
                 </div>
             </div>
             <!-- END Sign In Block -->

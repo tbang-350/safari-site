@@ -31,7 +31,9 @@ Auth::routes(['register' => false]);
 
 // Admin Routes (protected by auth middleware)
 Route::prefix('dashboard')->middleware(['auth'])->group(function () {
-    Route::view('/', 'dashboard')->name('dashboard');
+    Route::get('/', function () {
+        return view('dashboard');
+    })->name('admin.dashboard');
 
     // Bookings Management
     Route::prefix('bookings')->name('admin.bookings.')->group(function () {
@@ -58,6 +60,14 @@ Route::prefix('dashboard')->middleware(['auth'])->group(function () {
         Route::get('/{user}/edit', [UserController::class, 'edit'])->name('edit');
         Route::put('/{user}', [UserController::class, 'update'])->name('update');
         Route::delete('/{user}', [UserController::class, 'destroy'])->name('destroy');
+    });
+
+    // Tours Management
+    Route::prefix('tours')->name('admin.tours.')->group(function () {
+        Route::get('/', [App\Http\Controllers\Admin\TourController::class, 'index'])->name('index');
+        Route::post('/', [App\Http\Controllers\Admin\TourController::class, 'store'])->name('store');
+        Route::put('/{tour}', [App\Http\Controllers\Admin\TourController::class, 'update'])->name('update');
+        Route::delete('/{tour}', [App\Http\Controllers\Admin\TourController::class, 'destroy'])->name('destroy');
     });
 
     // Admin Dashboard Pages
