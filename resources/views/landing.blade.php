@@ -1,63 +1,115 @@
 @extends('layouts.simple')
 
 @section('content')
-  <!-- Hero -->
-  <div class="hero overflow-hidden bg-image" style="background-image: url('{{ asset('media/photos/photo21@2x.jpg') }}'); background-size: cover; background-position: center; min-height: 90vh;">
-    <div class="hero-inner">
-      <div class="content content-full text-center pt-7 pb-5">
-        <h1 class="fw-bold text-white mb-2 move-up-on-hover" style="font-size: 3.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-          Tanzania <span class="text-warning">Safari</span> Adventures
-        </h1>
-        <h2 class="h3 fw-medium text-white-75 mb-5 move-up-on-hover" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
-          Experience the magic of African wildlife and breathtaking landscapes
-        </h2>
-        <div class="d-flex justify-content-center gap-3">
-          <a class="btn btn-hero btn-primary px-4 py-3 d-inline-block" href="#tours">
-            <i class="fa fa-fw fa-compass me-1"></i> Explore Tours
-          </a>
-          <a class="btn btn-hero btn-alt-success px-4 py-3 d-inline-block" href="#booking">
-            <i class="fa fa-fw fa-calendar-alt me-1"></i> Book Now
-        </a>
+  <!-- Hero Carousel -->
+  <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="8000" data-bs-pause="false">
+    <div class="carousel-inner">
+      @foreach($heroImages as $index => $image)
+      <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" data-bs-interval="8000">
+        <div class="hero overflow-hidden bg-image" style="background-image: url('{{ $image->url }}'); background-size: cover; background-position: center; min-height: 90vh;">
+          <div class="hero-inner">
+            <div class="content content-full text-center pt-7 pb-5">
+              <h1 class="fw-bold text-white mb-2 move-up-on-hover" style="font-size: 3.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+                Tanzania <span class="text-warning">Safari</span> Adventures
+              </h1>
+              <h2 class="h3 fw-medium text-white-75 mb-5 move-up-on-hover" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
+                Experience the magic of African wildlife and breathtaking landscapes
+              </h2>
+              <div class="d-flex justify-content-center gap-3">
+                <a class="btn btn-hero btn-primary px-4 py-3" href="#tours">
+                  <i class="fa fa-fw fa-compass me-1"></i> Explore Tours
+                </a>
+                <a class="btn btn-hero btn-alt-success px-4 py-3" href="#booking">
+                  <i class="fa fa-fw fa-calendar-alt me-1"></i> Book Now
+                </a>
+              </div>
+              <div class="mt-3 text-white-50">
+                <small>Photo by <a href="{{ $image->photographer_url }}" class="text-white-75" target="_blank">{{ $image->photographer }}</a> on <a href="https://www.pexels.com" class="text-white-75" target="_blank">Pexels</a></small>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+      @endforeach
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#hero-carousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#hero-carousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+    <div class="carousel-indicators">
+      @foreach($heroImages as $index => $image)
+      <button type="button" data-bs-target="#hero-carousel" data-bs-slide-to="{{ $index }}" class="{{ $index === 0 ? 'active' : '' }}" aria-current="{{ $index === 0 ? 'true' : 'false' }}" aria-label="Slide {{ $index + 1 }}"></button>
+      @endforeach
     </div>
   </div>
-  <!-- END Hero -->
+  <!-- END Hero Carousel -->
 
   <!-- Featured Tours -->
-  <div class="content content-full">
+  <div id="tours" class="content content-full">
     <div class="text-center py-5">
       <h2 class="h3">Popular <span class="text-primary">Safari</span> Tours</h2>
       <p class="text-muted">Explore our most sought-after adventures across Tanzania</p>
     </div>
 
-    <div class="row">
-      @foreach($featuredTours as $tour)
-      <div class="col-md-6 col-xl-4">
-        <a class="block block-rounded block-link-shadow h-100 mb-4" href="{{ route('tours.show', $tour->slug) }}">
-          <div class="block-content p-0 overflow-hidden">
-            <img class="img-fluid" src="{{ $tour->image_source ? ($tour->image_type === 'pexels' ? $tour->image_source : asset('storage/' . $tour->image_source)) : asset('media/photos/photo21.jpg') }}" alt="{{ $tour->title }}">
-          </div>
-          <div class="block-content">
-            <h4 class="mb-1">{{ $tour->title }}</h4>
-            <p class="fs-sm text-muted">{{ Str::limit($tour->description, 100) }}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div>
-                <span class="badge bg-primary">{{ $tour->duration }} days</span>
-                <span class="badge bg-{{ $tour->difficulty_level === 'easy' ? 'success' : ($tour->difficulty_level === 'moderate' ? 'warning' : 'danger') }}">
-                  {{ ucfirst($tour->difficulty_level) }}
-                </span>
-              </div>
-              <div class="fs-4 fw-semibold">${{ number_format($tour->price, 2) }}</div>
+    <div id="tours-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="8000">
+      <div class="carousel-inner">
+        @foreach($featuredTours->chunk(3) as $index => $tourGroup)
+        <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" data-bs-interval="8000">
+          <div class="row">
+            @foreach($tourGroup as $tour)
+            <div class="col-md-4">
+              <a class="block block-rounded block-link-pop h-100 mb-4" href="{{ route('tours.show', $tour->slug) }}">
+                <div class="block-content p-0 overflow-hidden position-relative">
+                  <div class="tour-image-wrapper">
+                    <img class="img-fluid tour-image" src="{{ $tour->image_source ? ($tour->image_type === 'pexels' ? $tour->image_source : asset('storage/' . $tour->image_source)) : asset('media/photos/photo21.jpg') }}" alt="{{ $tour->title }}">
+                  </div>
+                  <div class="ribbon ribbon-bookmark ribbon-primary">
+                    <div class="ribbon-box">
+                      ${{ number_format($tour->price, 2) }}
+                    </div>
+                  </div>
+                </div>
+                <div class="block-content block-content-full">
+                  <h4 class="h5 mb-1">{{ $tour->title }}</h4>
+                  <p class="fs-sm text-muted mb-2">{{ Str::limit($tour->description, 100) }}</p>
+                  <div class="fs-sm">
+                    <i class="fa fa-map-marker-alt text-primary me-1"></i> {{ $tour->location }}
+                  </div>
+                  <div class="py-2">
+                    <span class="badge bg-primary">
+                      <i class="fa fa-clock me-1"></i> {{ $tour->duration }} days
+                    </span>
+                    <span class="badge bg-{{ $tour->difficulty_level === 'easy' ? 'success' : ($tour->difficulty_level === 'moderate' ? 'warning' : 'danger') }}">
+                      <i class="fa fa-hiking me-1"></i> {{ ucfirst($tour->difficulty_level) }}
+                    </span>
+                    <span class="badge bg-info">
+                      <i class="fa fa-users me-1"></i> Max {{ $tour->max_people }} people
+                    </span>
+                  </div>
+                </div>
+              </a>
             </div>
+            @endforeach
           </div>
-        </a>
+        </div>
+        @endforeach
       </div>
-      @endforeach
+      <button class="carousel-control-prev" type="button" data-bs-target="#tours-carousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#tours-carousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
     </div>
 
-    <div class="text-center">
-      <a href="{{ route('tours.index') }}" class="btn btn-alt-primary">
+    <div class="text-center mt-4">
+      <a href="{{ route('tours.index') }}" class="btn btn-lg btn-alt-primary">
         View All Tours <i class="fa fa-arrow-right ms-1"></i>
       </a>
     </div>
@@ -394,8 +446,31 @@
 
 @section('js_after')
 <script>
-  // Initialize Slick slider for testimonials when document is ready
   Dashmix.onLoad(() => {
+    // Initialize the carousel with custom settings
+    const toursCarousel = document.getElementById('tours-carousel');
+    const carousel = new bootstrap.Carousel(toursCarousel, {
+      interval: 8000,  // 8 seconds between slides
+      ride: 'carousel',
+      pause: 'hover',  // Pause on mouse hover
+      wrap: true,      // Continuous loop
+      touch: true      // Allow touch swipe
+    });
+
+    // Add smooth transition
+    document.querySelectorAll('.carousel-item').forEach(item => {
+      item.style.transition = 'transform 1.5s ease-in-out';
+    });
+
+    // Optional: Add keyboard navigation
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') {
+        carousel.prev();
+      } else if (e.key === 'ArrowRight') {
+        carousel.next();
+      }
+    });
+
     // Add animation classes on scroll
     const animateOnScroll = () => {
       document.querySelectorAll('.move-up-on-hover').forEach(element => {
@@ -408,12 +483,57 @@
     // Initial check and add scroll listener
     animateOnScroll();
     window.addEventListener('scroll', animateOnScroll);
+
+    // Smooth scroll to tours section
+    document.querySelector('a[href="#tours"]').addEventListener('click', function(e) {
+      e.preventDefault();
+      document.querySelector('#tours').scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    });
   });
 </script>
 @endsection
 
 @section('css_after')
 <style>
+  /* Carousel Transition Styles */
+  .carousel-fade .carousel-item {
+    opacity: 0;
+    transition: opacity 1.5s ease-in-out;
+  }
+
+  .carousel-fade .carousel-item.active {
+    opacity: 1;
+  }
+
+  /* Smooth indicator transitions */
+  .carousel-indicators [data-bs-target] {
+    transition: opacity 0.6s ease;
+  }
+
+  /* Smooth control transitions */
+  .carousel-control-prev,
+  .carousel-control-next {
+    transition: opacity 0.3s ease-in-out;
+  }
+
+  .carousel-control-prev:hover,
+  .carousel-control-next:hover {
+    opacity: 0.9;
+  }
+
+  /* Background image zoom effect */
+  .carousel-item .bg-image {
+    transition: transform 8s ease-in-out;
+    transform: scale(1);
+  }
+
+  .carousel-item.active .bg-image {
+    transform: scale(1.1);
+  }
+
   /* Safari-themed custom styles */
   .bg-image {
     position: relative;
@@ -444,12 +564,17 @@
   }
 
   .block-link-pop {
-    transition: all .2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    margin: 0.5rem;
   }
 
   .block-link-pop:hover {
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  }
+
+  .block-link-pop:hover .tour-image {
+    transform: scale(1.05);
   }
 
   /* Safari-themed color adjustments */
@@ -473,6 +598,87 @@
 
   .bg-primary-dark {
     background-color: #2c3e50 !important;
+  }
+
+  /* Tour Card Styles */
+  .tour-image-wrapper {
+    height: 250px;
+    overflow: hidden;
+  }
+
+  .tour-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .ribbon {
+    position: absolute;
+    top: 10px;
+    right: -5px;
+  }
+
+  .ribbon-box {
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+  }
+
+  /* Smooth carousel transitions */
+  .carousel-item {
+    transition: transform 1.5s ease-in-out !important;
+  }
+
+  /* Improve carousel controls visibility */
+  #tours-carousel .carousel-control-prev,
+  #tours-carousel .carousel-control-next {
+    width: 50px;
+    height: 50px;
+    background: rgba(0,0,0,0.6);
+    border-radius: 50%;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.3s ease;
+  }
+
+  #tours-carousel:hover .carousel-control-prev,
+  #tours-carousel:hover .carousel-control-next {
+    opacity: 0.8;
+  }
+
+  #tours-carousel:hover .carousel-control-prev:hover,
+  #tours-carousel:hover .carousel-control-next:hover {
+    opacity: 1;
+    background: rgba(0,0,0,0.8);
+  }
+
+  #tours-carousel .carousel-control-prev {
+    left: -25px;
+  }
+
+  #tours-carousel .carousel-control-next {
+    right: -25px;
+  }
+
+  /* Add carousel indicators */
+  #tours-carousel .carousel-indicators {
+    bottom: -40px;
+  }
+
+  #tours-carousel .carousel-indicators [data-bs-target] {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #e67e22;
+    opacity: 0.5;
+    transition: all 0.3s ease;
+  }
+
+  #tours-carousel .carousel-indicators .active {
+    opacity: 1;
+    transform: scale(1.2);
   }
 </style>
 @endsection

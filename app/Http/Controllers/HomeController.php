@@ -3,19 +3,23 @@
 namespace App\Http\Controllers;
 
 use App\Models\Tour;
+use App\Services\PexelsService;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
+    protected $pexelsService;
+
     /**
      * Create a new controller instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(PexelsService $pexelsService)
     {
         // Remove auth middleware since this is the landing page
         // $this->middleware('auth');
+        $this->pexelsService = $pexelsService;
     }
 
     /**
@@ -31,6 +35,8 @@ class HomeController extends Controller
             ->take(6)
             ->get();
 
-        return view('landing', compact('featuredTours'));
+        $heroImages = $this->pexelsService->getHeroImages();
+
+        return view('landing', compact('featuredTours', 'heroImages'));
     }
 }

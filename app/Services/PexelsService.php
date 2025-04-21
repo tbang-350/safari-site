@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\CachedHeroImage;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Cache;
 
@@ -9,10 +11,12 @@ class PexelsService
 {
     protected $apiKey;
     protected $baseUrl = 'https://api.pexels.com/v1';
+    private const CACHE_DURATION = 172800; // 48 hours in seconds
+    private const HERO_CACHE_HOURS = 48;
 
     public function __construct()
     {
-        $this->apiKey = env('PEXEL_API_KEY');
+        $this->apiKey = config('services.pexels.api_key');
     }
 
     /**
@@ -23,17 +27,17 @@ class PexelsService
      * @param int $page
      * @return array
      */
-    public function searchPhotos($query, $perPage = 15, $page = 1)
+    public function searchPhotos($query, $perPage = 5, $page = 1)
     {
         $cacheKey = "pexels_search_{$query}_{$perPage}_{$page}";
 
-        return Cache::remember($cacheKey, 3600, function () use ($query, $perPage, $page) {
+        return Cache::remember($cacheKey, now()->addDays(7), function () use ($query, $perPage, $page) {
             $response = Http::withHeaders([
-                'Authorization' => $this->apiKey
+                'Authorization' => $this->apiKey,
             ])->get("{$this->baseUrl}/search", [
                 'query' => $query,
                 'per_page' => $perPage,
-                'page' => $page
+                'page' => $page,
             ]);
 
             if ($response->successful()) {
@@ -43,7 +47,6 @@ class PexelsService
             return [
                 'photos' => [],
                 'total_results' => 0,
-                'error' => 'Failed to fetch photos from Pexels'
             ];
         });
     }
@@ -59,7 +62,7 @@ class PexelsService
     {
         $cacheKey = "pexels_curated_{$perPage}_{$page}";
 
-        return Cache::remember($cacheKey, 3600, function () use ($perPage, $page) {
+        return Cache::remember($cacheKey, self::CACHE_DURATION, function () use ($perPage, $page) {
             $response = Http::withHeaders([
                 'Authorization' => $this->apiKey
             ])->get("{$this->baseUrl}/curated", [
@@ -89,7 +92,7 @@ class PexelsService
     {
         $cacheKey = "pexels_photo_{$id}";
 
-        return Cache::remember($cacheKey, 3600, function () use ($id) {
+        return Cache::remember($cacheKey, self::CACHE_DURATION, function () use ($id) {
             $response = Http::withHeaders([
                 'Authorization' => $this->apiKey
             ])->get("{$this->baseUrl}/photos/{$id}");
@@ -100,5 +103,58 @@ class PexelsService
 
             return null;
         });
+    }
+
+    public function refreshHeroImages()
+    {
+        $searches = [
+            'african safari wildlife',
+            'serengeti animals',
+            'tanzania landscape',
+            'kilimanjaro mountain'
+        ];
+
+        $images = [];
+        foreach ($searches as $search) {
+            $response = Http::withHeaders([
+                'Authorization' => $this->apiKey
+            ])->get("{$this->baseUrl}/search", [
+                'query' => $search,
+                'per_page' => 1,
+                'orientation' => 'landscape',
+                'size' => 'large' // Request large images for better quality
+            ]);
+
+            if ($response->successful()) {
+                $photo = $response->json()['photos'][0];
+                $images[] = [
+                    'pexels_id' => $photo['id'],
+                    'url' => $photo['src']['landscape'], // Use landscape format for consistent sizing
+                    'photographer' => $photo['photographer'],
+                    'photographer_url' => $photo['photographer_url'],
+                    'alt_text' => $search,
+                    'expires_at' => Carbon::now()->addHours(self::HERO_CACHE_HOURS)
+                ];
+            }
+        }
+
+        // Clear old images and save new ones
+        CachedHeroImage::truncate();
+        foreach ($images as $image) {
+            CachedHeroImage::create($image);
+        }
+
+        return CachedHeroImage::all();
+    }
+
+    public function getHeroImages()
+    {
+        $images = CachedHeroImage::all();
+
+        if ($images->isEmpty() || $images->first()->isExpired()) {
+            $images = $this->refreshHeroImages();
+        }
+
+        return $images;
     }
 }
