@@ -25,7 +25,6 @@ jobs:
         server: bestchoiceeyecenter.co.tz
         username: ${{ secrets.FTP_USERNAME }}
         password: ${{ secrets.FTP_PASSWORD }}
-        server-dir: /public_html/safari_site
+        server-dir: /public_html/safari_site/
 
 
-        
