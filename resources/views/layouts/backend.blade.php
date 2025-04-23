@@ -119,7 +119,7 @@
                 <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="theme" data-theme="default" href="javascript:void(0)">Default</a>
               </div>
               <div class="col-6 mb-1">
-                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="theme" data-theme="{{ mix('/css/themes/xwork.css') }}" href="javascript:void(0)">xWork</a>
+                <a class="d-block py-3 bg-body-dark fw-semibold text-dark" data-toggle="theme" data-theme="{{ asset('/css/themes/xwork.css') }}" href="javascript:void(0)">xWork</a>
               </div>
             </div>
           </div>
