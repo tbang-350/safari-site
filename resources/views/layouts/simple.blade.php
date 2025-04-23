@@ -3,13 +3,13 @@
 
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
 
-  <title>Dashmix - Bootstrap 5 Admin Template &amp; UI Framework</title>
+  <title>Tanzania Safari Adventures - Admin Panel</title>
 
-  <meta name="description" content="Dashmix - Bootstrap 5 Admin Template &amp; UI Framework created by pixelcave">
-  <meta name="author" content="pixelcave">
-  <meta name="robots" content="index, follow">
+  <meta name="description" content="Tanzania Safari Adventures - Admin Panel">
+  <meta name="author" content="Tanzania Safari Adventures">
+  <meta name="robots" content="noindex, nofollow">
 
   <!-- Icons -->
   <link rel="shortcut icon" href="{{ asset('media/favicons/favicon.png') }}">
@@ -23,6 +23,7 @@
   <!-- Alternatively, you can also include a specific color theme after the main stylesheet to alter the default color theme of the template -->
   {{-- @vite(['resources/sass/main.scss', 'resources/sass/dashmix/themes/xwork.scss', 'resources/js/dashmix/app.js']) --}}
   @yield('js')
+  @yield('css_after')
 </head>
 
 <body>
@@ -70,7 +71,7 @@
       ''                                          Full width Main Content if no class is added
       'main-content-boxed'                        Full width Main Content with a specific maximum width (screen width > 1200px)
       'main-content-narrow'                       Full width Main Content with a percentage width (screen width > 1200px)
-        
+
     DARK MODE
 
       'sidebar-dark page-header-dark dark-mode'   Enable dark mode (light sidebar/header is not supported with dark mode)

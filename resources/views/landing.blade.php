@@ -9,14 +9,14 @@
         <div class="hero overflow-hidden bg-image" style="background-image: url('{{ $image->url }}'); background-size: cover; background-position: center; min-height: 90vh;">
           <div class="hero-inner">
             <div class="content content-full text-center pt-7 pb-5">
-              <h1 class="fw-bold text-white mb-2 move-up-on-hover" style="font-size: 3.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
+              <h1 class="fw-bold text-white mb-2 move-up-on-hover mobile-responsive-heading" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
                 Tanzania <span class="text-warning">Safari</span> Adventures
               </h1>
-              <h2 class="h3 fw-medium text-white-75 mb-5 move-up-on-hover" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
+              <h2 class="h3 fw-medium text-white-75 mb-5 move-up-on-hover mobile-responsive-subheading" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">
                 Experience the magic of African wildlife and breathtaking landscapes
               </h2>
-              <div class="d-flex justify-content-center gap-3">
-                <a class="btn btn-hero btn-primary px-4 py-3" href="#tours">
+              <div class="d-flex flex-column flex-sm-row justify-content-center gap-3">
+                <a class="btn btn-hero btn-primary px-4 py-3 mb-2 mb-sm-0" href="#tours">
                   <i class="fa fa-fw fa-compass me-1"></i> Explore Tours
                 </a>
                 <a class="btn btn-hero btn-alt-success px-4 py-3" href="#booking">
@@ -59,9 +59,9 @@
       <div class="carousel-inner">
         @foreach($featuredTours->chunk(3) as $index => $tourGroup)
         <div class="carousel-item {{ $index === 0 ? 'active' : '' }}" data-bs-interval="8000">
-          <div class="row">
+          <div class="row g-3">
             @foreach($tourGroup as $tour)
-            <div class="col-md-4">
+            <div class="col-12 col-md-6 col-lg-4">
               <a class="block block-rounded block-link-pop h-100 mb-4" href="{{ route('tours.show', $tour->slug) }}">
                 <div class="block-content p-0 overflow-hidden position-relative">
                   <div class="tour-image-wrapper">
@@ -79,7 +79,7 @@
                   <div class="fs-sm">
                     <i class="fa fa-map-marker-alt text-primary me-1"></i> {{ $tour->location }}
                   </div>
-                  <div class="py-2">
+                  <div class="py-2 d-flex flex-wrap gap-2">
                     <span class="badge bg-primary">
                       <i class="fa fa-clock me-1"></i> {{ $tour->duration }} days
                     </span>
@@ -124,9 +124,9 @@
           <h2 class="h3">Why Choose Us</h2>
           <p class="text-muted">Experience the difference with our premium services</p>
         </div>
-        <div class="row">
-          <div class="col-md-4">
-            <div class="text-center mb-5">
+        <div class="row g-4">
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="text-center mb-4">
               <div class="item item-circle mx-auto mb-3">
                 <i class="fa fa-2x fa-map-marked-alt text-primary"></i>
               </div>
@@ -134,8 +134,8 @@
               <p class="text-muted mb-0">Our experienced guides know every trail and secret spot</p>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="text-center mb-5">
+          <div class="col-12 col-sm-6 col-md-4">
+            <div class="text-center mb-4">
               <div class="item item-circle mx-auto mb-3">
                 <i class="fa fa-2x fa-shield-alt text-primary"></i>
               </div>
@@ -143,8 +143,8 @@
               <p class="text-muted mb-0">Your safety is our top priority on every expedition</p>
             </div>
           </div>
-          <div class="col-md-4">
-            <div class="text-center mb-5">
+          <div class="col-12 col-sm-6 col-md-4 mx-auto">
+            <div class="text-center mb-4">
               <div class="item item-circle mx-auto mb-3">
                 <i class="fa fa-2x fa-heart text-primary"></i>
               </div>
@@ -171,7 +171,7 @@
           <div class="carousel-inner">
             <div class="carousel-item active">
               <div class="row g-4 justify-content-center">
-                <div class="col-md-4">
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
                   <div class="testimonial-card h-100">
                     <div class="quote-icon">
                       <i class="fa fa-quote-left text-light"></i>
@@ -195,7 +195,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
                   <div class="testimonial-card h-100 highlighted">
                     <div class="quote-icon">
                       <i class="fa fa-quote-left text-primary"></i>
@@ -219,7 +219,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
                   <div class="testimonial-card h-100">
                     <div class="quote-icon">
                       <i class="fa fa-quote-left text-light"></i>
@@ -247,7 +247,7 @@
             </div>
             <div class="carousel-item">
               <div class="row g-4 justify-content-center">
-                <div class="col-md-4">
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
                   <div class="testimonial-card h-100">
                     <div class="quote-icon">
                       <i class="fa fa-quote-left text-light"></i>
@@ -271,7 +271,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
                   <div class="testimonial-card h-100 highlighted">
                     <div class="quote-icon">
                       <i class="fa fa-quote-left text-primary"></i>
@@ -295,7 +295,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-12 col-md-4 mb-4 mb-md-0">
                   <div class="testimonial-card h-100">
                     <div class="quote-icon">
                       <i class="fa fa-quote-left text-light"></i>
@@ -591,397 +591,171 @@
 
 @section('css_after')
 <style>
-  /* Carousel Transition Styles */
-  .carousel-fade .carousel-item {
-    opacity: 0;
-    transition: opacity 1.5s ease-in-out;
+  /* General Responsive Styles */
+  @media (max-width: 576px) {
+    .container {
+      padding-left: 15px;
+      padding-right: 15px;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      font-size: 0.875rem;
+    }
+
+    .btn-lg {
+      padding: 0.75rem 1.25rem;
+      font-size: 1rem;
+    }
   }
 
-  .carousel-fade .carousel-item.active {
-    opacity: 1;
+  /* Hero Section Responsive Styles */
+  .mobile-responsive-heading {
+    font-size: 3.5rem;
   }
 
-  /* Smooth indicator transitions */
-  .carousel-indicators [data-bs-target] {
-    transition: opacity 0.6s ease;
+  .mobile-responsive-subheading {
+    font-size: 1.25rem;
   }
 
-  /* Smooth control transitions */
-  .carousel-control-prev,
-  .carousel-control-next {
-    transition: opacity 0.3s ease-in-out;
+  @media (max-width: 768px) {
+    .mobile-responsive-heading {
+      font-size: 2.5rem;
+    }
+
+    .mobile-responsive-subheading {
+      font-size: 1.125rem;
+    }
+
+    .hero .hero-inner {
+      padding-top: 2rem;
+      padding-bottom: 2rem;
+    }
   }
 
-  .carousel-control-prev:hover,
-  .carousel-control-next:hover {
-    opacity: 0.9;
+  @media (max-width: 576px) {
+    .mobile-responsive-heading {
+      font-size: 2rem;
+    }
+
+    .mobile-responsive-subheading {
+      font-size: 1rem;
+      margin-bottom: 1.5rem !important;
+    }
+
+    .hero {
+      min-height: 70vh !important;
+    }
   }
 
-  /* Background image zoom effect */
-  .carousel-item .bg-image {
-    transition: transform 8s ease-in-out;
-    transform: scale(1);
-  }
-
-  .carousel-item.active .bg-image {
-    transform: scale(1.1);
-  }
-
-  /* Safari-themed custom styles */
-  .bg-image {
-    position: relative;
-  }
-
-  .bg-image::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0,0,0,0.4);
-    z-index: 1;
-  }
-
-  .bg-image .hero-inner {
-    position: relative;
-    z-index: 2;
-  }
-
-  .move-up-on-hover {
-    transition: transform .3s ease;
-  }
-
-  .move-up-on-hover:hover {
-    transform: translateY(-5px);
-  }
-
-  .block-link-pop {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    margin: 0.5rem;
-  }
-
-  .block-link-pop:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-  }
-
-  .block-link-pop:hover .tour-image {
-    transform: scale(1.05);
-  }
-
-  /* Safari-themed color adjustments */
-  .text-warning {
-    color: #e67e22 !important;
-  }
-
-  .btn-primary {
-    background-color: #e67e22;
-    border-color: #d35400;
-  }
-
-  .btn-primary:hover {
-    background-color: #d35400;
-    border-color: #c0392b;
-  }
-
-  .text-primary {
-    color: #e67e22 !important;
-  }
-
-  .bg-primary-dark {
-    background-color: #2c3e50 !important;
-  }
-
-  /* Tour Card Styles */
+  /* Tour Cards Responsive Styles */
   .tour-image-wrapper {
-    height: 250px;
+    position: relative;
     overflow: hidden;
+    padding-top: 66.67%; /* 2:3 Aspect Ratio */
   }
 
   .tour-image {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
   }
 
-  .ribbon {
-    position: absolute;
-    top: 10px;
-    right: -5px;
+  .block-link-pop:hover .tour-image {
+    transform: scale(1.05);
   }
 
-  .ribbon-box {
-    padding: 0.5rem 1rem;
-    font-size: 1.1rem;
-    font-weight: 600;
+  @media (max-width: 576px) {
+    .ribbon-box {
+      font-size: 0.75rem;
+      padding: 0.25rem 0.5rem;
+    }
   }
 
-  /* Smooth carousel transitions */
-  .carousel-item {
-    transition: transform 1.5s ease-in-out !important;
-  }
-
-  /* Improve carousel controls visibility */
-  #tours-carousel .carousel-control-prev,
-  #tours-carousel .carousel-control-next {
-    width: 50px;
-    height: 50px;
-    background: rgba(0,0,0,0.6);
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-    opacity: 0;
-    transition: all 0.3s ease;
-  }
-
-  #tours-carousel:hover .carousel-control-prev,
-  #tours-carousel:hover .carousel-control-next {
-    opacity: 0.8;
-  }
-
-  #tours-carousel:hover .carousel-control-prev:hover,
-  #tours-carousel:hover .carousel-control-next:hover {
-    opacity: 1;
-    background: rgba(0,0,0,0.8);
-  }
-
-  #tours-carousel .carousel-control-prev {
-    left: -25px;
-  }
-
-  #tours-carousel .carousel-control-next {
-    right: -25px;
-  }
-
-  /* Add carousel indicators */
-  #tours-carousel .carousel-indicators {
-    bottom: -40px;
-  }
-
-  #tours-carousel .carousel-indicators [data-bs-target] {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background-color: #e67e22;
-    opacity: 0.5;
-    transition: all 0.3s ease;
-  }
-
-  #tours-carousel .carousel-indicators .active {
-    opacity: 1;
-    transform: scale(1.2);
-  }
-
-  /* Testimonial Section Styling */
-  .testimonials-wrapper {
-    padding: 2rem 0 4rem;
-  }
-
+  /* Testimonial Cards Responsive Styles */
   .testimonial-card {
-    background-color: #fff;
-    background: #fff;
-    border-radius: 2rem;
-    padding: 3.5rem;
-    margin: 1.5rem;
-    box-shadow: 0 1.5rem 3rem rgba(0,0,0,0.1);
-    transition: all 0.4s ease;
-    text-align: center;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
     position: relative;
-    overflow: hidden;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    padding: 2rem;
+    margin-bottom: 1rem;
+    height: 100%;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
-  .testimonial-card::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background: linear-gradient(to right, #e67e22, #f39c12);
+  .testimonial-card.highlighted {
+    background-color: #f8f9fa;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-left: 3px solid #e67e22;
   }
 
-  .testimonial-rating {
-    font-size: 1.75rem;
-    letter-spacing: 5px;
-    margin-bottom: 2rem;
+  .testimonial-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   }
 
   .testimonial-text {
-    font-size: 1.35rem;
-    line-height: 1.8;
-    color: #2c3e50;
-    margin: 2rem auto;
     font-style: italic;
-    position: relative;
-    max-width: 85%;
-    font-weight: 300;
+    margin-bottom: 1.5rem;
+    color: #6c757d;
   }
 
-  .testimonial-text::before,
-  .testimonial-text::after {
-    content: '"';
-    font-size: 5rem;
-    font-family: 'Playfair Display', serif;
-    color: #e67e22;
-    opacity: 0.15;
+  .quote-icon {
     position: absolute;
-    line-height: 1;
-  }
-
-  .testimonial-text::before {
-    left: -2.5rem;
-    top: -1.5rem;
-  }
-
-  .testimonial-text::after {
-    right: -2.5rem;
-    bottom: -3rem;
+    top: -10px;
+    left: 20px;
+    font-size: 1.5rem;
+    background-color: #fff;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   }
 
   .testimonial-author {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 1.5rem;
-    padding-top: 2rem;
-    margin-top: 2.5rem;
-    border-top: 2px solid rgba(0,0,0,0.05);
+    margin-top: 20px;
   }
 
   .testimonial-avatar {
-    width: 80px;
-    height: 80px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #e67e22;
-    box-shadow: 0 8px 16px rgba(230,126,34,0.2);
-    transition: all 0.3s ease;
+    margin-right: 15px;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
   }
 
-  .testimonial-info h5 {
-    color: #2c3e50;
-    font-weight: 700;
-    font-size: 1.35rem;
-    margin: 0;
-    font-family: 'Playfair Display', serif;
-  }
+  @media (max-width: 768px) {
+    .testimonial-card {
+      padding: 1.5rem;
+    }
 
-  .testimonial-info p {
-    font-size: 1.1rem;
-    color: #7f8c8d;
-  }
+    .testimonial-text {
+      font-size: 0.875rem;
+    }
 
-  .testimonial-controls {
-    margin-top: 2rem;
-  }
-
-  .testimonial-control {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    border: 2px solid rgba(230,126,34,0.3);
-    background: rgba(255,255,255,0.8);
-    color: #e67e22;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.4s ease;
-    font-size: 1.1rem;
-    opacity: 0;
-    z-index: 10;
-  }
-
-  .testimonial-control.prev {
-    left: -60px;
-  }
-
-  .testimonial-control.next {
-    right: -60px;
-  }
-
-  .col-lg-8:hover .testimonial-control {
-    opacity: 0.7;
-  }
-
-  .testimonial-control:hover {
-    background: #e67e22;
-    color: white;
-    border-color: #e67e22;
-    transform: translateY(-50%) scale(1.1);
-    opacity: 1 !important;
-    box-shadow: 0 5px 15px rgba(230,126,34,0.2);
-  }
-
-  .testimonial-indicators {
-    position: absolute;
-    bottom: -2rem;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    gap: 0.75rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .testimonial-indicators button {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    border: 2px solid #e67e22;
-    background: transparent;
-    opacity: 0.5;
-    padding: 0;
-    transition: all 0.4s ease;
-    cursor: pointer;
-  }
-
-  .testimonial-indicators button.active {
-    opacity: 1;
-    background: #e67e22;
-    transform: scale(1.2);
-  }
-
-  @media (max-width: 991.98px) {
-    .testimonial-control {
+    .testimonial-avatar {
       width: 40px;
       height: 40px;
-      font-size: 1rem;
-    }
-
-    .testimonial-control.prev {
-      left: -20px;
-    }
-
-    .testimonial-control.next {
-      right: -20px;
     }
   }
 
-  @media (max-width: 767.98px) {
-    .testimonial-control {
-      width: 35px;
-      height: 35px;
-      background: rgba(255,255,255,0.9);
-      opacity: 0.7;
-    }
+  /* Animation Styles */
+  .move-up-on-hover {
+    transition: transform 0.3s ease;
+  }
 
-    .testimonial-control.prev {
-      left: -10px;
-    }
-
-    .testimonial-control.next {
-      right: -10px;
-    }
+  .move-up-on-hover:hover {
+    transform: translateY(-5px);
   }
 </style>
 @endsection
