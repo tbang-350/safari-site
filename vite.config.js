@@ -8,7 +8,8 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/js/app.js',
                 'resources/js/admin/tours.js',
-                'resources/sass/main.scss'
+                'resources/sass/main.scss',
+                'resources/js/dashmix/app.js'
             ],
             refresh: true,
         }),
